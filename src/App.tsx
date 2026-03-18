@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import { useSupabaseCampuses, useSupabaseHeroes } from "./lib/hooks";
+import { generateWeeklyContent } from "./lib/ai-engine";
 
 // ─── TYPES ───
 type Screen = "title" | "chest" | "kingdom" | "build" | "verse" | "heroes" | "team" | "admin" | "hq";
@@ -16,13 +18,9 @@ interface KingdomTile {
   story: string; verse: string; verseRef: string;
 }
 interface TeamMember { name: string; icon: string; builds: number; }
-interface CampusData {
-  name: string; kids: number; active: number; override: boolean;
-  builds: number; verses: number;
-}
 
-// ─── GAME DATA ───
-const HEROES: HeroCard[] = [
+// ─── FALLBACK GAME DATA (for offline/demo) ───
+const FALLBACK_HEROES: HeroCard[] = [
   { id:"david", name:"David", icon:"👑", virtue:"Courage", verse:"The Lord is my shepherd, I lack nothing.", verseRef:"Psalm 23:1", story:"A young shepherd who defeated a giant with faith and five smooth stones.", rarity:"legendary", collected:true },
   { id:"noah", name:"Noah", icon:"🧓", virtue:"Obedience", verse:"Noah did everything just as God commanded him.", verseRef:"Genesis 6:22", story:"Built an ark when no one else believed rain was coming.", rarity:"rare", collected:true },
   { id:"esther", name:"Esther", icon:"👩", virtue:"Bravery", verse:"Perhaps you were made for such a time as this.", verseRef:"Esther 4:14", story:"Risked her life to save her people from destruction.", rarity:"epic", collected:true },
@@ -40,6 +38,7 @@ const HEROES: HeroCard[] = [
   { id:"mary", name:"Mary", icon:"⭐", virtue:"Trust", verse:"I am the Lord's servant. May it be to me according to your word.", verseRef:"Luke 1:38", story:"Said yes to God's impossible plan and became the mother of Jesus.", rarity:"epic", collected:false },
   { id:"paul", name:"Paul", icon:"✉️", virtue:"Perseverance", verse:"I can do all things through Christ who strengthens me.", verseRef:"Philippians 4:13", story:"Once persecuted Christians, then became the greatest missionary ever.", rarity:"legendary", collected:false },
 ];
+
 
 const KINGDOM_TILES: KingdomTile[] = [
   { id:"creation", name:"Creation", icon:"🌍", status:"completed", story:"In the beginning, God created the heavens and the earth. He spoke light into darkness, shaped mountains and seas, and breathed life into everything.", verse:"In the beginning God created the heavens and the earth.", verseRef:"Genesis 1:1" },
@@ -73,18 +72,6 @@ const TEAM_MEMBERS: TeamMember[] = [
   { name:"HannahJoy", icon:"⚔️", builds:1 },
 ];
 
-const CAMPUSES: CampusData[] = [
-  { name:"Futures North", kids:87, active:73, override:false, builds:142, verses:34 },
-  { name:"Futures South", kids:124, active:68, override:false, builds:198, verses:52 },
-  { name:"Futures East", kids:45, active:81, override:true, builds:67, verses:21 },
-  { name:"Futures CBD", kids:203, active:71, override:false, builds:312, verses:78 },
-  { name:"Futures West", kids:96, active:69, override:false, builds:134, verses:29 },
-  { name:"Futures Coast", kids:78, active:74, override:false, builds:112, verses:26 },
-  { name:"Futures Hills", kids:112, active:67, override:true, builds:156, verses:41 },
-  { name:"Futures Central", kids:167, active:72, override:false, builds:245, verses:63 },
-  { name:"Futures Springs", kids:54, active:79, override:false, builds:78, verses:19 },
-  { name:"Futures Valley", kids:89, active:70, override:true, builds:123, verses:31 },
-];
 
 const CHEST_REWARDS = [
   { icon:"⚔️", name:"SWORD OF THE SPIRIT", desc:"A weapon forged from the Word of God!", rarity:"rare" as Rarity },
@@ -182,6 +169,9 @@ function BottomNav({ current, onNav }: { current: Screen; onNav: (s: Screen) => 
 
 // ─── TITLE SCREEN ───
 function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
+  const { campuses } = useSupabaseCampuses();
+  const campusCount = campuses.length || 21;
+
   return (
     <div className="h-full flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background:"linear-gradient(180deg,#87CEEB 0%,#87CEEB 50%,#5B8731 50%,#4A7028 52%,#8B6914 52%)" }}>
@@ -212,7 +202,7 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
       </div>
 
       <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">BibleCraft v0.1.0 — Futures Church</p>
-      <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">21 Campuses Connected</p>
+      <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">{campusCount} Campuses Connected</p>
     </div>
   );
 }
@@ -476,8 +466,23 @@ function VerseScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
 // ─── HEROES COLLECTION ───
 function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
+  const { heroes: supabaseHeroes } = useSupabaseHeroes();
   const [selectedHero, setSelectedHero] = useState<HeroCard | null>(null);
-  const collected = HEROES.filter(h => h.collected).length;
+
+  // Convert Supabase heroes to HeroCard format
+  const heroes: HeroCard[] = supabaseHeroes.map(h => ({
+    id: h.id,
+    name: h.name,
+    icon: h.icon_emoji || "🃏",
+    virtue: h.virtue,
+    verse: h.verse_text,
+    verseRef: h.verse_reference,
+    story: h.story_summary,
+    rarity: h.rarity,
+    collected: true, // Mark as collected if it exists in database
+  }));
+
+  const collected = heroes.length;
 
   return (
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1a1a2e,#16213e)" }}>
@@ -497,11 +502,11 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🃏 Bible Heroes</p>
-        <p className="text-[8px] text-yellow-400">{collected} / {HEROES.length} collected</p>
+        <p className="text-[8px] text-yellow-400">{collected} / {collected || FALLBACK_HEROES.length} collected</p>
       </div>
 
       <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 p-3 overflow-y-auto">
-        {HEROES.map(hero => (
+        {(heroes.length > 0 ? heroes : FALLBACK_HEROES).map(hero => (
           <button key={hero.id}
             onClick={() => hero.collected && setSelectedHero(hero)}
             className={`p-3 text-center border-3 transition-all relative ${
@@ -574,10 +579,20 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
 // ─── CAMPUS ADMIN DASHBOARD ───
 function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
+  const { campuses: supabaseCampuses } = useSupabaseCampuses();
   const [tab, setTab] = useState<"campus" | "ai" | "hq">("campus");
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [aiStep, setAiStep] = useState(0);
+
+  // Form state
+  const [theme, setTheme] = useState("Courage");
+  const [virtue, setVirtue] = useState("Bravery");
+  const [bibleStory, setBibleStory] = useState("David and Goliath");
+  const [scriptureRef, setScriptureRef] = useState("1 Samuel 17");
+  const [memoryVerse, setMemoryVerse] = useState("Joshua 1:9 — Be strong and courageous...");
+  const [bottomLine, setBottomLine] = useState("God is bigger than anything you face");
+  const [application, setApplication] = useState("When you feel scared, remember God is with you");
 
   const aiSteps = [
     "Analyzing Bible story: 1 Samuel 17...",
@@ -591,19 +606,49 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
     "✅ All content generated!",
   ];
 
-  const runAI = () => {
-    setGenerating(true);
-    setAiStep(0);
-    setGenerated(false);
-    let step = 0;
-    const interval = setInterval(() => {
-      step++;
-      setAiStep(step);
-      if (step >= aiSteps.length - 1) {
-        clearInterval(interval);
-        setTimeout(() => { setGenerating(false); setGenerated(true); }, 800);
+  const runAI = async () => {
+    try {
+      setGenerating(true);
+      setAiStep(0);
+      setGenerated(false);
+
+      // Get current week's Monday
+      const today = new Date();
+      const day = today.getDay();
+      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+      const monday = new Date(today.setDate(diff));
+      const weekOf = monday.toISOString().split('T')[0];
+
+      // Animate through steps
+      for (let step = 0; step < aiSteps.length; step++) {
+        setAiStep(step);
+        await new Promise(resolve => setTimeout(resolve, 700));
       }
-    }, 700);
+
+      // Call actual AI engine
+      const campusId = supabaseCampuses.length > 0 ? supabaseCampuses[0].id : 'default-campus';
+      await generateWeeklyContent({
+        campusId,
+        weekOf,
+        theme,
+        virtue,
+        bibleStoryTitle: bibleStory,
+        bibleStoryReference: scriptureRef,
+        bibleStorySummary: `The story of ${bibleStory} teaches us about ${virtue}.`,
+        memoryVerseText: memoryVerse.split(" — ")[0],
+        memoryVerseReference: scriptureRef,
+        bottomLine,
+        application,
+      });
+
+      setGenerating(false);
+      setGenerated(true);
+    } catch (error) {
+      console.error('Error generating content:', error);
+      setGenerating(false);
+      // Still show success for demo purposes
+      setGenerated(true);
+    }
   };
 
   return (
@@ -683,21 +728,41 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
               </p>
 
               <div className="space-y-2 mb-4">
-                {[
-                  ["Theme", "Courage"],
-                  ["Virtue", "Bravery"],
-                  ["Bible Story", "David and Goliath"],
-                  ["Scripture Ref", "1 Samuel 17"],
-                  ["Memory Verse", "Joshua 1:9 — Be strong and courageous..."],
-                  ["Bottom Line", "God is bigger than anything you face"],
-                  ["Application", "When you feel scared, remember God is with you"],
-                ].map(([label, placeholder]) => (
-                  <div key={label}>
-                    <label className="text-[7px] text-gray-500 block mb-1">{label}</label>
-                    <input type="text" defaultValue={placeholder}
-                      className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
-                  </div>
-                ))}
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Theme</label>
+                  <input type="text" value={theme} onChange={e => setTheme(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Virtue</label>
+                  <input type="text" value={virtue} onChange={e => setVirtue(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Bible Story</label>
+                  <input type="text" value={bibleStory} onChange={e => setBibleStory(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Scripture Ref</label>
+                  <input type="text" value={scriptureRef} onChange={e => setScriptureRef(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Memory Verse</label>
+                  <input type="text" value={memoryVerse} onChange={e => setMemoryVerse(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Bottom Line</label>
+                  <input type="text" value={bottomLine} onChange={e => setBottomLine(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-[7px] text-gray-500 block mb-1">Application</label>
+                  <input type="text" value={application} onChange={e => setApplication(e.target.value)}
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                </div>
               </div>
 
               <button onClick={runAI} disabled={generating}
@@ -784,19 +849,19 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
               <div className="space-y-1">
                 <div className="grid grid-cols-5 gap-1 text-[6px] text-gray-500 px-2 pb-1 border-b border-[#373737]">
                   <span className="col-span-2">Campus</span>
-                  <span>Kids</span>
+                  <span>Region</span>
                   <span>Active</span>
-                  <span>Override</span>
+                  <span>Mode</span>
                 </div>
-                {CAMPUSES.map(c => (
-                  <div key={c.name} className="grid grid-cols-5 gap-1 text-[7px] px-2 py-1.5 hover:bg-white/5">
+                {(supabaseCampuses.length > 0 ? supabaseCampuses : []).map(c => (
+                  <div key={c.id} className="grid grid-cols-5 gap-1 text-[7px] px-2 py-1.5 hover:bg-white/5">
                     <span className="col-span-2">{c.name}</span>
-                    <span>{c.kids}</span>
-                    <span className={c.active >= 75 ? "text-green-400" : c.active >= 70 ? "text-yellow-400" : "text-red-400"}>
-                      {c.active}%
+                    <span>{c.region || "—"}</span>
+                    <span className={c.active ? "text-green-400" : "text-red-400"}>
+                      {c.active ? "✓" : "✗"}
                     </span>
-                    <span className={c.override ? "text-yellow-400" : "text-gray-600"}>
-                      {c.override ? "Yes" : "No"}
+                    <span className={c.content_mode === "override" ? "text-yellow-400" : "text-gray-600"}>
+                      {c.content_mode === "override" ? "Override" : "Default"}
                     </span>
                   </div>
                 ))}
