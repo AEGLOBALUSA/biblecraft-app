@@ -17,7 +17,7 @@
     --secondary: 222 15% 18%;
     --secondary-foreground: 0 0% 91%;
     --muted: 222 15% 18%;
-    --muted-foreground: 0 0% 55%;
+    --muted-foreground: 0 0% 70%;
     --accent: 45 100% 50%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 80% 50%;
@@ -125,3 +125,7 @@ body {
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,.3); }
 ::-webkit-scrollbar-thumb { background: #555; border: 1px solid #373737; }
+
+/* Text readability utilities */
+.text-readable { text-shadow: 1px 1px 0 #000, 2px 2px 0 rgba(0,0,0,0.3); }
+.text-readable-strong { text-shadow: 2px 2px 0 #000, 0 0 8px rgba(0,0,0,0.5); }

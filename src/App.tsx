@@ -132,7 +132,7 @@ function Sparkles({ active }: { active: boolean }) {
 //   if (!visible) return null;
 //   return (
 //     <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 anim-slide">
-//       <div className="bg-white/90 text-black px-4 py-3 rounded-lg shadow-lg border-3 border-gray-800 max-w-xs text-center text-[9px] font-['Press_Start_2P']">
+//       <div className="bg-white/90 text-black px-4 py-3 rounded-lg shadow-lg border-3 border-gray-800 max-w-xs text-center text-[11px] font-['Press_Start_2P']">
 //         {text}
 //       </div>
 //       <div className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 bg-white/90 rotate-45 border-r-3 border-b-3 border-gray-800" />
@@ -165,8 +165,8 @@ function StoryOverlay({ tile, onClose }: { tile: KingdomTile | null; onClose: ()
       <div className="text-7xl mb-6 anim-pop">{tile.icon}</div>
       <p className="text-[10px] leading-[2] text-center max-w-md mb-6 anim-slide text-gray-200">{tile.story}</p>
       <div className="pixel-border bg-cyan-950/30 border-cyan-400 px-6 py-4 text-center mb-6 anim-slide" style={{ animationDelay: ".2s" }}>
-        <p className="text-[8px] text-cyan-300 mb-2">{tile.verseRef}</p>
-        <p className="text-[9px] leading-[1.8]">"{tile.verse}"</p>
+        <p className="text-[10px] text-cyan-300 mb-2">{tile.verseRef}</p>
+        <p className="text-[11px] leading-[1.8]">"{tile.verse}"</p>
       </div>
       <button className="mc-btn mc-btn-green px-8 py-3 text-[10px]">CONTINUE</button>
     </div>
@@ -245,8 +245,8 @@ function BottomLineOverlay({ text, verseRef, onDismiss }: { text: string; verseR
 //       </p>
 //
 //       <div className="bg-black/40 border-2 border-yellow-400 p-4 mb-6 max-w-sm">
-//         <p className="text-[9px] text-center text-yellow-400 mb-3">TODAY'S SUMMARY</p>
-//         <div className="space-y-2 text-[8px]">
+//         <p className="text-[11px] text-center text-yellow-400 mb-3">TODAY'S SUMMARY</p>
+//         <div className="space-y-2 text-[10px]">
 //           <p>⭐ XP Earned: <span className="text-yellow-400">{xpEarned}</span></p>
 //           <p>🔨 Pieces Built: <span className="text-green-400">{builtsCreated}</span></p>
 //           <p>📖 Verses Practiced: <span className="text-cyan-300">{versesPracticed}</span></p>
@@ -301,13 +301,13 @@ function HeroDetailModal({ hero, onClose }: { hero: HeroCard; onClose: () => voi
     <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-40 p-6" onClick={onClose}>
       <div className="text-6xl mb-4 anim-pop">{hero.icon}</div>
       <p className={`text-lg ${rarityColor(hero.rarity)}`}>{hero.name}</p>
-      <p className="text-[9px] text-cyan-300 mt-2">⚡ {hero.virtue}</p>
-      <p className="text-[8px] text-gray-400 mt-4 max-w-sm text-center leading-[2]">{hero.story}</p>
+      <p className="text-[11px] text-cyan-300 mt-2">⚡ {hero.virtue}</p>
+      <p className="text-[10px] text-gray-400 mt-4 max-w-sm text-center leading-[2]">{hero.story}</p>
       <div className="pixel-border bg-cyan-950/30 border-cyan-400 px-5 py-3 mt-4 text-center">
-        <p className="text-[7px] text-cyan-300 mb-1">{hero.verseRef}</p>
-        <p className="text-[8px] leading-[1.8]">"{hero.verse}"</p>
+        <p className="text-[10px] text-cyan-300 mb-1">{hero.verseRef}</p>
+        <p className="text-[10px] leading-[1.8]">"{hero.verse}"</p>
       </div>
-      <p className="text-[8px] text-purple-300 mt-4 max-w-sm text-center">
+      <p className="text-[10px] text-purple-300 mt-4 max-w-sm text-center">
         When have YOU been {hero.virtue.toLowerCase()} like {hero.name}?
       </p>
       <button onClick={onClose} className="mc-btn mc-btn-green px-8 py-2.5 text-[10px] mt-5">CLOSE</button>
@@ -473,7 +473,7 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
           placeholder="Search campuses..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-[#222] border-2 border-[#373737] px-4 py-2 text-[9px] text-white mb-4 focus:border-green-400 outline-none"
+          className="w-full bg-[#222] border-2 border-[#373737] px-4 py-2 text-[11px] text-white mb-4 focus:border-green-400 outline-none"
         />
 
         <div className="flex-1 space-y-2 mb-6 overflow-y-auto">
@@ -489,7 +489,7 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
                 </button>
               ))
             ) : (
-              <div className="text-white text-center py-4 text-[9px]">No campuses found</div>
+              <div className="text-white text-center py-4 text-[11px]">No campuses found</div>
             )
           ) : (
             REGION_ORDER.map(region => {
@@ -497,7 +497,7 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
               if (regionCampuses.length === 0) return null;
               return (
                 <div key={region}>
-                  <div className="text-[8px] text-yellow-400 font-bold px-2 py-1" style={{ textShadow: "1px 1px 0 #000" }}>
+                  <div className="text-[10px] text-yellow-400 font-bold px-2 py-1" style={{ textShadow: "1px 1px 0 #000" }}>
                     {region}
                   </div>
                   {regionCampuses.map((c) => (
@@ -694,8 +694,8 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </button>
       </div>
 
-      <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">VerseCraft v0.2.0 — Futures Church</p>
-      <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
+      <p className="absolute bottom-3 left-3 text-[10px] text-white/70 z-10" style={{ textShadow: "1px 1px 0 #000" }}>VerseCraft v0.2.0 — Futures Church</p>
+      <p className="absolute bottom-3 right-3 text-[10px] text-white/70 z-10" style={{ textShadow: "1px 1px 0 #000" }}>{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
     </div>
   );
 }
@@ -723,7 +723,7 @@ function ChestScreen({ onNav }: { onNav: (s: Screen) => void }) {
           <p className="text-sm text-yellow-400 mt-5 anim-blink" style={{ textShadow:"2px 2px 0 #000" }}>
             DAILY TREASURE
           </p>
-          <p className="text-[8px] text-gray-500 mt-3">Tap to open!</p>
+          <p className="text-[10px] text-gray-500 mt-3">Tap to open!</p>
         </div>
       ) : (
         <div className="text-center anim-pop">
@@ -731,8 +731,8 @@ function ChestScreen({ onNav }: { onNav: (s: Screen) => void }) {
           <p className="text-base text-yellow-400 mt-4" style={{ textShadow:"2px 2px 0 #000" }}>
             {reward.name}
           </p>
-          <p className="text-[9px] text-gray-400 mt-2 max-w-xs leading-[1.8]">{reward.desc}</p>
-          <div className={`inline-block mt-3 px-3 py-1 text-[8px] border-2 ${rarityColor(reward.rarity)} ${reward.rarity === "legendary" ? "anim-glow" : ""}`}>
+          <p className="text-[11px] text-gray-400 mt-2 max-w-xs leading-[1.8]">{reward.desc}</p>
+          <div className={`inline-block mt-3 px-3 py-1 text-[10px] border-2 ${rarityColor(reward.rarity)} ${reward.rarity === "legendary" ? "anim-glow" : ""}`}>
             ★ {reward.rarity.toUpperCase()} ★
           </div>
           <div className="mt-6">
@@ -757,7 +757,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
           <div className="w-10 h-10 bg-[#555] border-2 border-[#373737] flex items-center justify-center text-2xl">⛏️</div>
           <div>
             <p className="text-[10px]">Jayden_07</p>
-            <p className="text-[8px] text-green-400 mt-0.5">LVL 4 — Disciple</p>
+            <p className="text-[10px] text-green-400 mt-0.5">LVL 4 — Disciple</p>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-black/40 px-3 py-2 border-2 border-[#373737]">
@@ -771,11 +771,11 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
 
       {/* XP bar */}
       <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border-b-2 border-[#373737]">
-        <span className="text-[7px] text-green-400">XP</span>
+        <span className="text-[10px] text-green-400">XP</span>
         <div className="flex-1 h-3 bg-[#222] border-2 border-[#373737]">
           <div className="h-full bg-gradient-to-b from-green-400 to-green-600" style={{ width:"65%" }} />
         </div>
-        <span className="text-[7px] text-green-400">650/1000</span>
+        <span className="text-[10px] text-green-400">650/1000</span>
       </div>
 
       {/* Grid */}
@@ -793,7 +793,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
               <span className="absolute top-1.5 right-1.5 text-[6px] bg-red-500 text-white px-1.5 py-0.5 anim-blink">NEW!</span>
             )}
             <span className={`text-3xl mb-2 ${tile.status === "locked" ? "opacity-25" : ""}`}>{tile.icon}</span>
-            <span className={`text-[7px] text-center leading-[1.4] ${tile.status === "locked" ? "text-[#666]" : ""}`}>{tile.name}</span>
+            <span className={`text-[10px] text-center leading-[1.4] ${tile.status === "locked" ? "text-[#666]" : ""}`}>{tile.name}</span>
             <span className={`text-[6px] mt-1 ${
               tile.status === "completed" ? "text-green-400" :
               tile.status === "current" ? "text-yellow-400" :
@@ -880,7 +880,7 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
 
       <div className="flex items-center justify-between px-4 py-3 bg-black/60 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🏰 Walls of Jericho</p>
-        <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
+        <button onClick={() => onNav("kingdom")} className="text-[11px] text-gray-400 hover:text-white">← BACK</button>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-4">
@@ -903,18 +903,18 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
             </div>
           ))}
           {placed === 0 && (
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8px] text-white/40">
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white/80">
               Tap pieces below to build!
             </p>
           )}
         </div>
 
         <div className="w-full max-w-xl flex items-center gap-2 mt-3">
-          <span className="text-[7px]">BUILD</span>
+          <span className="text-[10px]">BUILD</span>
           <div className="flex-1 h-4 bg-[#222] border-2 border-[#373737]">
             <div className="h-full bg-gradient-to-b from-yellow-400 to-yellow-600 transition-all duration-500" style={{ width:`${pct}%` }} />
           </div>
-          <span className="text-[7px]">{pct}%</span>
+          <span className="text-[10px]">{pct}%</span>
         </div>
       </div>
 
@@ -973,11 +973,11 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
 //
 //       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
 //         <p className="text-[11px]">📖 Verse Quest</p>
-//         <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
+//         <button onClick={() => onNav("kingdom")} className="text-[11px] text-gray-400 hover:text-white">← BACK</button>
 //       </div>
 //
 //       <div className="flex-1 flex flex-col items-center justify-center px-5 max-w-2xl mx-auto w-full">
-//         <p className="text-[8px] text-yellow-400 mb-3">
+//         <p className="text-[10px] text-yellow-400 mb-3">
 //           {allSolved ? "VERSE COMPLETE! +50 XP BONUS! ✨" : `COMBO: ${combo}`}
 //         </p>
 //         <p className="text-[10px] text-cyan-300 mb-5">Joshua 1:9</p>
@@ -1046,7 +1046,7 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🃏 Bible Heroes</p>
-        <p className="text-[8px] text-yellow-400">{collected} / {collected || FALLBACK_HEROES.length} collected</p>
+        <p className="text-[10px] text-yellow-400">{collected} / {collected || FALLBACK_HEROES.length} collected</p>
       </div>
 
       <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 p-3 overflow-y-auto">
@@ -1068,7 +1068,7 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
               <span className="absolute top-1 right-1 text-[6px] border border-cyan-400 px-1" style={{ color: "#5CE8E8" }}>✦</span>
             )}
             <span className={`text-3xl ${!hero.collected ? "opacity-20 grayscale" : ""}`}>{hero.icon}</span>
-            <p className={`text-[7px] mt-2 ${!hero.collected ? "text-[#555]" : ""}`}>{hero.collected ? hero.name : "???"}</p>
+            <p className={`text-[10px] mt-2 ${!hero.collected ? "text-[#555]" : ""}`}>{hero.collected ? hero.name : "???"}</p>
             {hero.collected && <p className="text-[6px] text-cyan-300 mt-1">⚡ {hero.virtue}</p>}
             {hero.collected && <p className="text-[5px] text-gray-500 mt-1 leading-[1.5]">{hero.verseRef}</p>}
           </button>
@@ -1117,19 +1117,19 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1e3a1e,#0a1a0a)" }}>
       <div className="px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">⚔️ Faith Builders</p>
-        <p className="text-[8px] text-green-400 mt-1">Futures Church — Kids Ministry</p>
+        <p className="text-[10px] text-green-400 mt-1">Futures Church — Kids Ministry</p>
       </div>
 
       {/* Team Celebration Message */}
       {pct >= 25 && (
         <div className="mx-3 mt-2 p-3 bg-yellow-900/30 border-2 border-yellow-600">
-          <p className="text-[8px] text-yellow-300 text-center">{milestoneMsg}</p>
+          <p className="text-[10px] text-yellow-300 text-center">{milestoneMsg}</p>
         </div>
       )}
 
       <div className="mx-3 mt-3 p-4 bg-black/40 border-3 border-[#373737]">
         <p className="text-[10px] text-yellow-400 mb-2">🎯 WEEKLY MISSION</p>
-        <p className="text-[8px] text-gray-400 leading-[1.8] mb-4">
+        <p className="text-[10px] text-gray-400 leading-[1.8] mb-4">
           Build 15 scenes and memorize 5 verses as a team to unlock the Story of Elijah!
         </p>
 
@@ -1151,24 +1151,24 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </div>
 
         {/* Progress text - always positive */}
-        <p className="text-[8px] text-green-400 mb-2">Your team has built <span className="font-bold text-yellow-400">{totalBuilds}</span> of <span className="font-bold">{missionGoal}</span> scenes!</p>
+        <p className="text-[10px] text-green-400 mb-2">Your team has built <span className="font-bold text-yellow-400">{totalBuilds}</span> of <span className="font-bold">{missionGoal}</span> scenes!</p>
 
         {/* Current reward tier */}
         {currentTier !== 'none' && (
-          <p className="text-[8px] text-green-300 bg-green-900/30 px-2 py-1 border border-green-700 text-center">{tierMessage}</p>
+          <p className="text-[10px] text-green-300 bg-green-900/30 px-2 py-1 border border-green-700 text-center">{tierMessage}</p>
         )}
       </div>
 
       <div className="flex-1 px-3 mt-3 overflow-y-auto space-y-1.5">
-        <p className="text-[8px] text-yellow-400 px-2">Your Contribution</p>
+        <p className="text-[10px] text-yellow-400 px-2">Your Contribution</p>
         {TEAM_MEMBERS.slice(0, 1).map((m, i) => (
           <div key={i} className="flex items-center gap-3 px-3 py-2.5 bg-black/30 border-2 border-[#373737]">
             <span className="text-2xl">{m.icon}</span>
-            <span className="text-[8px] flex-1">{m.name}</span>
-            <span className="text-[7px] text-green-400">You helped with {m.builds} builds!</span>
+            <span className="text-[10px] flex-1">{m.name}</span>
+            <span className="text-[10px] text-green-400">You helped with {m.builds} builds!</span>
           </div>
         ))}
-        <p className="text-[7px] text-gray-500 px-2 mt-2">Together, your team is making something amazing!</p>
+        <p className="text-[10px] text-gray-500 px-2 mt-2">Together, your team is making something amazing!</p>
       </div>
 
       <div className="px-3 py-3">
@@ -1260,13 +1260,13 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
     <div className="h-full flex flex-col bg-[#0f1520]">
       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">⚙️ VerseCraft Admin</p>
-        <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
+        <button onClick={() => onNav("kingdom")} className="text-[11px] text-gray-400 hover:text-white">← BACK</button>
       </div>
 
       <div className="flex gap-1 px-3 pt-3">
         {(["campus", "ai", "hq"] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className={`mc-btn text-[8px] px-4 py-2 ${tab === t ? "mc-btn-green" : ""}`}>
+            className={`mc-btn text-[10px] px-4 py-2 ${tab === t ? "mc-btn-green" : ""}`}>
             {t === "campus" ? "📋 Campus" : t === "ai" ? "🤖 AI Engine" : "🌐 HQ View"}
           </button>
         ))}
@@ -1279,7 +1279,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
             <div className="bg-black/30 border-3 border-[#373737] p-4">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] text-yellow-400">THIS WEEK'S CONTENT</p>
-                <span className="text-[7px] text-green-400 bg-green-900/30 px-2 py-1 border border-green-700">Using: HQ Default ✓</span>
+                <span className="text-[10px] text-green-400 bg-green-900/30 px-2 py-1 border border-green-700">Using: HQ Default ✓</span>
               </div>
               <div className="space-y-2">
                 {[
@@ -1290,12 +1290,12 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["Application", "When you feel scared, remember God is with you"],
                 ].map(([label, val]) => (
                   <div key={label} className="flex gap-3">
-                    <span className="text-[7px] text-gray-500 w-20 shrink-0">{label}</span>
-                    <span className="text-[8px] text-gray-200">{val}</span>
+                    <span className="text-[10px] text-gray-500 w-20 shrink-0">{label}</span>
+                    <span className="text-[10px] text-gray-200">{val}</span>
                   </div>
                 ))}
               </div>
-              <button className="mc-btn mc-btn-gold text-[8px] px-4 py-2 mt-3">Override with Custom Content</button>
+              <button className="mc-btn mc-btn-gold text-[10px] px-4 py-2 mt-3">Override with Custom Content</button>
             </div>
 
             <div className="bg-black/30 border-3 border-[#373737] p-4">
@@ -1310,7 +1310,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["Team Mission", "73%", "🎯"],
                 ].map(([label, val, icon]) => (
                   <div key={label} className="bg-black/30 border-2 border-[#373737] p-3">
-                    <p className="text-[7px] text-gray-500">{icon} {label}</p>
+                    <p className="text-[10px] text-gray-500">{icon} {label}</p>
                     <p className="text-[14px] text-white mt-1">{val}</p>
                   </div>
                 ))}
@@ -1328,45 +1328,45 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
           <div className="space-y-3 anim-slide">
             <div className="bg-black/30 border-3 border-[#373737] p-4">
               <p className="text-[10px] text-cyan-300 mb-3">🤖 AI CONTENT ENGINE</p>
-              <p className="text-[7px] text-gray-400 leading-[2] mb-4">
+              <p className="text-[10px] text-gray-400 leading-[2] mb-4">
                 Enter your 7 lesson data points. The AI engine will generate a full week of gamified content — build scenes, verse quests, adventures, hero cards, and team missions.
               </p>
 
               <div className="space-y-2 mb-4">
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Theme</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Theme</label>
                   <input type="text" value={theme} onChange={e => setTheme(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Virtue</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Virtue</label>
                   <input type="text" value={virtue} onChange={e => setVirtue(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Bible Story</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Bible Story</label>
                   <input type="text" value={bibleStory} onChange={e => setBibleStory(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Scripture Ref</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Scripture Ref</label>
                   <input type="text" value={scriptureRef} onChange={e => setScriptureRef(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Memory Verse</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Memory Verse</label>
                   <input type="text" value={memoryVerse} onChange={e => setMemoryVerse(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Bottom Line</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Bottom Line</label>
                   <input type="text" value={bottomLine} onChange={e => setBottomLine(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
                 <div>
-                  <label className="text-[7px] text-gray-500 block mb-1">Application</label>
+                  <label className="text-[10px] text-gray-500 block mb-1">Application</label>
                   <input type="text" value={application} onChange={e => setApplication(e.target.value)}
-                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[8px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
+                    className="w-full bg-[#222] border-2 border-[#373737] px-3 py-2 text-[10px] text-gray-200 font-['Press_Start_2P'] focus:border-cyan-400 outline-none" />
                 </div>
               </div>
 
@@ -1381,7 +1381,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                 <p className="text-[10px] text-yellow-400 mb-3">GENERATION LOG</p>
                 <div className="space-y-1.5 font-mono">
                   {aiSteps.slice(0, aiStep + 1).map((step, i) => (
-                    <p key={i} className={`text-[7px] ${i === aiStep && generating ? "text-cyan-300 anim-blink" : i === aiSteps.length - 1 ? "text-green-400" : "text-gray-500"}`}>
+                    <p key={i} className={`text-[10px] ${i === aiStep && generating ? "text-cyan-300 anim-blink" : i === aiSteps.length - 1 ? "text-green-400" : "text-gray-500"}`}>
                       {step}
                     </p>
                   ))}
@@ -1391,7 +1391,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
             {generated && (
               <div className="space-y-2 anim-slide">
-                <p className="text-[9px] text-green-400 px-1">Generated content ready for review:</p>
+                <p className="text-[11px] text-green-400 px-1">Generated content ready for review:</p>
                 {[
                   ["🔨 Build Scene", "David & Goliath Valley — 6 pieces, narration script"],
                   ["📖 Verse Quest", "Joshua 1:9 — 4 rounds, 5 hidden words"],
@@ -1402,10 +1402,10 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                 ].map(([title, desc]) => (
                   <div key={title} className="flex items-center justify-between bg-black/30 border-2 border-[#373737] px-3 py-2.5">
                     <div>
-                      <p className="text-[8px]">{title}</p>
+                      <p className="text-[10px]">{title}</p>
                       <p className="text-[6px] text-gray-500 mt-0.5">{desc}</p>
                     </div>
-                    <button className="mc-btn text-[7px] px-3 py-1.5">Review</button>
+                    <button className="mc-btn text-[10px] px-3 py-1.5">Review</button>
                   </div>
                 ))}
                 <button className="mc-btn mc-btn-green w-full py-3 text-[10px] text-center mt-2">
@@ -1459,7 +1459,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   <span>Mode</span>
                 </div>
                 {(supabaseCampuses.length > 0 ? supabaseCampuses : []).map(c => (
-                  <div key={c.id} className="grid grid-cols-5 gap-1 text-[7px] px-2 py-1.5 hover:bg-white/5">
+                  <div key={c.id} className="grid grid-cols-5 gap-1 text-[10px] px-2 py-1.5 hover:bg-white/5">
                     <span className="col-span-2">{c.name}</span>
                     <span>{c.region || "—"}</span>
                     <span className={c.active ? "text-green-400" : "text-red-400"}>
