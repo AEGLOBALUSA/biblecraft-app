@@ -1,6 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSupabaseCampuses, useSupabaseHeroes } from "./lib/hooks";
 import { generateWeeklyContent } from "./lib/ai-engine";
+import { signInAnonymously, createPlayerProfile, getPlayerProfile } from "./lib/auth";
+import { generateSafeNameSuggestions } from "./lib/safe-names";
+import { PrivacyNotice } from "./components/PrivacyNotice";
 
 // ─── TYPES ───
 type Screen = "title" | "chest" | "kingdom" | "build" | "verse" | "heroes" | "team" | "admin" | "hq";
@@ -163,6 +166,215 @@ function BottomNav({ current, onNav }: { current: Screen; onNav: (s: Screen) => 
         <span className="text-xl">⚙️</span>
         <span className="text-[5px] mt-0.5 text-gray-300">ADMIN</span>
       </button>
+    </div>
+  );
+}
+
+// ─── PARENT GATE ───
+function ParentGate({ onPass }: { onPass: () => void }) {
+  type OpType = "×" | "+";
+  const [problem, setProblem] = useState<{ a: number; b: number; op: OpType }>({ a: 7, b: 4, op: "×" });
+  const [answer, setAnswer] = useState("");
+  const [solved, setSolved] = useState(false);
+
+  useEffect(() => {
+    // Generate random math problem
+    const a = Math.floor(Math.random() * 10) + 2;
+    const b = Math.floor(Math.random() * 10) + 2;
+    const op: OpType = Math.random() > 0.5 ? "×" : "+";
+    setProblem({ a, b, op });
+    setAnswer("");
+    setSolved(false);
+  }, []);
+
+  const handleSubmit = () => {
+    const correct = problem.op === "×" ? problem.a * problem.b : problem.a + problem.b;
+    if (parseInt(answer) === correct) {
+      setSolved(true);
+      localStorage.setItem("biblecraft_parent_gate_passed", "true");
+      setTimeout(onPass, 1000);
+    } else {
+      setAnswer("");
+      alert("Incorrect. Please try again!");
+    }
+  };
+
+  return (
+    <div className="h-full flex items-center justify-center"
+      style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
+      <div className="text-center max-w-md mx-auto px-4">
+        <div className="text-6xl mb-4">🔒</div>
+        <h2 className="text-2xl font-bold text-white mb-3" style={{ textShadow: "2px 2px 0 #000" }}>
+          Parent Gate
+        </h2>
+        <p className="text-sm text-gray-200 mb-6">
+          Parents: Please solve this math problem to let your child play.
+        </p>
+
+        <div className="bg-black/30 border-4 border-[#373737] p-6 mb-6 rounded">
+          <p className="text-3xl font-bold text-yellow-400 mb-4">
+            {problem.a} {problem.op} {problem.b} = ?
+          </p>
+          <input
+            type="number"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
+            placeholder="Your answer"
+            className="w-full bg-[#222] border-2 border-[#373737] px-4 py-3 text-lg text-white text-center font-bold mb-4 focus:border-green-400 outline-none"
+          />
+          <button
+            onClick={handleSubmit}
+            disabled={!answer || solved}
+            className="mc-btn mc-btn-green w-full py-3 text-lg font-bold"
+          >
+            {solved ? "✅ Verified!" : "Submit"}
+          </button>
+        </div>
+
+        <p className="text-[10px] text-gray-400">
+          This gate ensures kids know a trusted adult is aware they're playing. ✨
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── CAMPUS SELECT ───
+function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) {
+  const { campuses, loading } = useSupabaseCampuses();
+
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center"
+        style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
+        <div className="text-center">
+          <div className="text-4xl mb-3">⛏️</div>
+          <p className="text-white">Loading campuses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-full flex flex-col items-center justify-center p-4"
+      style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
+      <div className="w-full max-w-md">
+        <h2 className="text-3xl font-bold text-white text-center mb-2" style={{ textShadow: "2px 2px 0 #000" }}>
+          Choose Your Campus
+        </h2>
+        <p className="text-sm text-gray-200 text-center mb-6">
+          Where do you play?
+        </p>
+
+        <div className="space-y-2 mb-6">
+          {campuses.length > 0 ? (
+            campuses.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => onSelect(c.id)}
+                className="w-full mc-btn py-4 text-left px-4 text-lg hover:bg-green-700"
+              >
+                {c.name}
+              </button>
+            ))
+          ) : (
+            <div className="text-white text-center py-4">No campuses available</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── NAME PICKER ───
+function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: () => void }) {
+  const [displayName, setDisplayName] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setSuggestions(generateSafeNameSuggestions(5));
+  }, []);
+
+  const handleCreate = async () => {
+    if (!displayName.trim()) {
+      setError("Please enter a name");
+      return;
+    }
+
+    try {
+      setCreating(true);
+      setError("");
+
+      // Sign in anonymously
+      await signInAnonymously();
+
+      // Create player profile
+      await createPlayerProfile(displayName, "⛏️", campusId);
+
+      // Continue to game
+      onComplete();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create profile");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  return (
+    <div className="h-full flex flex-col items-center justify-center p-4"
+      style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
+      <div className="w-full max-w-md">
+        <h2 className="text-3xl font-bold text-white text-center mb-2" style={{ textShadow: "2px 2px 0 #000" }}>
+          Pick Your Name
+        </h2>
+        <p className="text-sm text-gray-200 text-center mb-6">
+          Choose a brave name to start your adventure!
+        </p>
+
+        {/* Name suggestions */}
+        <div className="space-y-2 mb-4">
+          {suggestions.map((name) => (
+            <button
+              key={name}
+              onClick={() => setDisplayName(name)}
+              className={`w-full px-4 py-3 border-2 text-center font-bold transition ${
+                displayName === name
+                  ? "mc-btn mc-btn-green"
+                  : "bg-[#222] border-[#373737] text-white hover:border-gray-400"
+              }`}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+
+        {/* Custom name input */}
+        <input
+          type="text"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          placeholder="Or type your name..."
+          maxLength={30}
+          className="w-full bg-[#222] border-2 border-[#373737] px-4 py-3 text-white text-center font-bold mb-4 focus:border-green-400 outline-none"
+        />
+
+        {error && <p className="text-red-400 text-sm text-center mb-3">{error}</p>}
+
+        <button
+          onClick={handleCreate}
+          disabled={!displayName.trim() || creating}
+          className="mc-btn mc-btn-green w-full py-3 text-lg font-bold"
+        >
+          {creating ? "Creating..." : "Start Adventure"}
+        </button>
+
+        <p className="text-[10px] text-gray-400 text-center mt-4">
+          Your name is safe and only visible in your campus group.
+        </p>
+      </div>
     </div>
   );
 }
@@ -939,21 +1151,71 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
 export default function App() {
   const [screen, setScreen] = useState<Screen>("title");
   const [storyTile, setStoryTile] = useState<KingdomTile | null>(null);
+  const [authStage, setAuthStage] = useState<"check" | "gate" | "campus" | "name" | "ready">("check");
+  const [selectedCampus, setSelectedCampus] = useState<string>("");
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const nav = useCallback((s: Screen) => setScreen(s), []);
+
+  // Check auth status on mount
+  useEffect(() => {
+    async function checkAuth() {
+      const parentGatePassed = localStorage.getItem("biblecraft_parent_gate_passed") === "true";
+      const player = await getPlayerProfile();
+
+      if (player) {
+        // Returning player - skip to game
+        setAuthStage("ready");
+        setScreen("title");
+      } else if (parentGatePassed) {
+        // Parent gate passed, need to select campus and name
+        setAuthStage("campus");
+      } else {
+        // First time - show parent gate
+        setAuthStage("gate");
+      }
+    }
+
+    checkAuth();
+  }, []);
+
+  const handleParentGatePassed = () => {
+    setAuthStage("campus");
+  };
+
+  const handleCampusSelected = (campusId: string) => {
+    setSelectedCampus(campusId);
+    setAuthStage("name");
+  };
+
+  const handleNameComplete = () => {
+    setAuthStage("ready");
+    setScreen("title");
+  };
 
   return (
     <div className="h-screen w-screen overflow-hidden">
       {storyTile && <StoryOverlay tile={storyTile} onClose={() => setStoryTile(null)} />}
+      {showPrivacy && <PrivacyNotice onClose={() => setShowPrivacy(false)} />}
 
-      {screen === "title" && <TitleScreen onNav={nav} />}
-      {screen === "chest" && <ChestScreen onNav={nav} />}
-      {screen === "kingdom" && <KingdomScreen onNav={nav} onStory={setStoryTile} />}
-      {screen === "build" && <BuildScreen onNav={nav} />}
-      {screen === "verse" && <VerseScreen onNav={nav} />}
-      {screen === "heroes" && <HeroesScreen onNav={nav} />}
-      {screen === "team" && <TeamScreen onNav={nav} />}
-      {screen === "admin" && <AdminScreen onNav={nav} />}
+      {/* Auth flow */}
+      {authStage === "gate" && <ParentGate onPass={handleParentGatePassed} />}
+      {authStage === "campus" && <CampusSelector onSelect={handleCampusSelected} />}
+      {authStage === "name" && <NamePicker campusId={selectedCampus} onComplete={handleNameComplete} />}
+
+      {/* Game screens (only show after auth complete) */}
+      {authStage === "ready" && (
+        <>
+          {screen === "title" && <TitleScreen onNav={nav} />}
+          {screen === "chest" && <ChestScreen onNav={nav} />}
+          {screen === "kingdom" && <KingdomScreen onNav={nav} onStory={setStoryTile} />}
+          {screen === "build" && <BuildScreen onNav={nav} />}
+          {screen === "verse" && <VerseScreen onNav={nav} />}
+          {screen === "heroes" && <HeroesScreen onNav={nav} />}
+          {screen === "team" && <TeamScreen onNav={nav} />}
+          {screen === "admin" && <AdminScreen onNav={nav} />}
+        </>
+      )}
     </div>
   );
 }
