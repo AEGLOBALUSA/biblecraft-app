@@ -211,7 +211,7 @@ Make sure:
 
     // Call Claude API
     const message = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-sonnet-4-5-20241014',
       max_tokens: 4000,
       messages: [
         {
