@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 20% 8%;
+    --foreground: 0 0% 91%;
+    --card: 222 20% 12%;
+    --card-foreground: 0 0% 91%;
+    --popover: 222 20% 12%;
+    --popover-foreground: 0 0% 91%;
+    --primary: 100 40% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 15% 18%;
+    --secondary-foreground: 0 0% 91%;
+    --muted: 222 15% 18%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 80% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 15% 22%;
+    --input: 222 15% 22%;
+    --ring: 100 40% 35%;
+    --radius: 0px;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+}
+
+@keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes pulse-glow { 0%,100%{box-shadow:0 0 8px rgba(255,215,0,.3)} 50%{box-shadow:0 0 24px rgba(255,215,0,.6)} }
+@keyframes sparkle-fly { 0%{transform:scale(1) translateY(0);opacity:1} 100%{transform:scale(0) translateY(-160px);opacity:0} }
+@keyframes pop-in { 0%{transform:scale(0) rotate(-8deg);opacity:0} 60%{transform:scale(1.15) rotate(2deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+@keyframes slide-up { 0%{transform:translateY(24px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+@keyframes drift { from{transform:translateX(-180px)} to{transform:translateX(calc(100vw + 180px))} }
+@keyframes place-block { 0%{transform:scale(1.5)} 50%{transform:scale(.85)} 100%{transform:scale(1)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.5} }
+@keyframes word-pop { 0%{transform:scale(1.4);color:#7FFF00} 100%{transform:scale(1)} }
+
+.anim-bounce { animation: bounce-slow 1.2s ease-in-out infinite; }
+.anim-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.anim-pop { animation: pop-in .5s ease-out; }
+.anim-slide { animation: slide-up .4s ease-out; }
+.anim-drift-1 { animation: drift 28s linear infinite; }
+.anim-drift-2 { animation: drift 22s linear infinite reverse; }
+.anim-drift-3 { animation: drift 34s linear infinite; }
+.anim-place { animation: place-block .3s ease-out; }
+.anim-blink { animation: blink 1.5s infinite; }
+.anim-word { animation: word-pop .3s ease-out; }
+
+/* Minecraft button styles */
+.mc-btn {
+  font-family: 'Press Start 2P', monospace;
+  border: 3px solid;
+  border-color: #AAA #555 #555 #AAA;
+  background: linear-gradient(180deg,#7A7A7A,#5A5A5A 45%,#4A4A4A 55%,#3A3A3A);
+  color: #E8E8E8;
+  text-shadow: 2px 2px 0 #3F3F3F;
+  cursor: pointer;
+  transition: all .08s;
+  user-select: none;
+}
+.mc-btn:hover {
+  background: linear-gradient(180deg,#8A8AFF,#6A6AEE 45%,#5A5ADD 55%,#4A4ACC);
+  border-color: #AAAAFF #5555AA #5555AA #AAAAFF;
+}
+.mc-btn:active { transform: scale(.97); }
+.mc-btn-green {
+  background: linear-gradient(180deg,#5B8731,#4A7028 45%,#3D6020 55%,#2F4F18) !important;
+  border-color: #7EC850 #3D6020 #3D6020 #7EC850 !important;
+}
+.mc-btn-green:hover {
+  background: linear-gradient(180deg,#6B9741,#5A8038 45%,#4D7030 55%,#3F5F28) !important;
+}
+.mc-btn-gold {
+  background: linear-gradient(180deg,#C8A000,#A08000 45%,#907000 55%,#806000) !important;
+  border-color: #FFD700 #806000 #806000 #FFD700 !important;
+}
+.mc-btn-red {
+  background: linear-gradient(180deg,#A03030,#802020 45%,#701818 55%,#601010) !important;
+  border-color: #FF5555 #601010 #601010 #FF5555 !important;
+}
+
+.pixel-border {
+  border: 3px solid #373737;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.12), inset -2px -2px 0 rgba(0,0,0,.2);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,.3); }
+::-webkit-scrollbar-thumb { background: #555; border: 1px solid #373737; }
