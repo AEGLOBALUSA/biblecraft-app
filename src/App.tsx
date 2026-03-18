@@ -371,15 +371,16 @@ function ParentGate({ onPass }: { onPass: () => void }) {
     <div className="h-full flex items-center justify-center"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
       <div className="text-center max-w-md mx-auto px-4">
+        <div className="bg-black/85 border-4 border-[#373737] rounded p-6">
         <div className="text-6xl mb-4">🔒</div>
-        <h2 className="text-2xl font-bold text-white mb-3" style={{ textShadow: "2px 2px 0 #000" }}>
+        <h2 className="text-2xl font-bold text-white mb-3">
           Parent Gate
         </h2>
-        <p className="text-sm text-gray-200 mb-6">
+        <p className="text-sm text-white mb-6">
           Parents: Please solve this math problem to let your child play.
         </p>
 
-        <div className="bg-black/70 border-4 border-[#373737] p-6 mb-6 rounded">
+        <div className="bg-black/50 border-2 border-[#555] p-6 mb-6 rounded">
           <p className="text-3xl font-bold text-yellow-400 mb-4">
             {problem.a} {problem.op} {problem.b} = ?
           </p>
@@ -400,9 +401,10 @@ function ParentGate({ onPass }: { onPass: () => void }) {
           </button>
         </div>
 
-        <p className="text-[10px] text-gray-400 bg-black/70 px-3 py-2 rounded">
+        <p className="text-[10px] text-gray-300 mt-4">
           This gate ensures kids know a trusted adult is aware they're playing. ✨
         </p>
+        </div>
       </div>
     </div>
   );
@@ -460,11 +462,11 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
   return (
     <div className="h-full flex flex-col items-center justify-center p-4"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
-      <div className="w-full max-w-md h-full flex flex-col">
-        <h2 className="text-3xl font-bold text-white text-center mb-2 bg-black/70 px-3 py-2 rounded" style={{ textShadow: "2px 2px 0 #000" }}>
+      <div className="w-full max-w-md h-full flex flex-col bg-black/85 border-4 border-[#373737] rounded p-4">
+        <h2 className="text-3xl font-bold text-white text-center mb-2">
           Choose Your Campus
         </h2>
-        <p className="text-sm text-gray-200 text-center mb-4 bg-black/70 px-3 py-2 rounded">
+        <p className="text-sm text-white text-center mb-4">
           Where do you play?
         </p>
 
@@ -473,7 +475,7 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
           placeholder="Search campuses..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-[#222] border-2 border-[#373737] px-4 py-2 text-[11px] text-white mb-4 focus:border-green-400 outline-none"
+          className="w-full bg-[#111] border-2 border-[#555] px-4 py-2 text-[11px] text-white mb-4 focus:border-green-400 outline-none"
         />
 
         <div className="flex-1 space-y-2 mb-6 overflow-y-auto">
@@ -558,11 +560,11 @@ function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: ()
   return (
     <div className="h-full flex flex-col items-center justify-center p-4"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
-      <div className="w-full max-w-md">
-        <h2 className="text-3xl font-bold text-white text-center mb-2 bg-black/70 px-3 py-2 rounded" style={{ textShadow: "2px 2px 0 #000" }}>
+      <div className="w-full max-w-md bg-black/85 border-4 border-[#373737] rounded p-4">
+        <h2 className="text-3xl font-bold text-white text-center mb-2">
           Pick Your Name
         </h2>
-        <p className="text-sm text-gray-200 text-center mb-6 bg-black/70 px-3 py-2 rounded">
+        <p className="text-sm text-white text-center mb-6">
           Choose a brave name to start your adventure!
         </p>
 
@@ -603,7 +605,7 @@ function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: ()
           {creating ? "Creating..." : "Start Adventure"}
         </button>
 
-        <p className="text-[10px] text-gray-400 text-center mt-4 bg-black/70 px-3 py-2 rounded">
+        <p className="text-[10px] text-gray-300 text-center mt-4">
           Your name is safe and only visible in your campus group.
         </p>
       </div>
@@ -675,12 +677,12 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </div>
       )}
 
-      <div className="relative z-10 text-center mb-12">
+      <div className="relative z-10 text-center mb-12 bg-black/70 px-8 py-6 rounded border-4 border-[#373737]">
         <h1 className="text-4xl md:text-5xl text-white font-bold tracking-wider"
-          style={{ textShadow:"4px 4px 0 #3F3F3F, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000" }}>
+          style={{ textShadow:"4px 4px 0 #3F3F3F" }}>
           VERSECRAFT
         </h1>
-        <p className="text-[10px] text-yellow-400 mt-2 tracking-widest" style={{ textShadow:"2px 2px 0 #000" }}>
+        <p className="text-[11px] text-yellow-400 mt-3 tracking-widest">
           BUILD &bull; LEARN &bull; BELIEVE
         </p>
       </div>
@@ -694,8 +696,10 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </button>
       </div>
 
-      <p className="absolute bottom-3 left-3 text-[10px] text-white/70 z-10" style={{ textShadow: "1px 1px 0 #000" }}>VerseCraft v0.2.0 — Futures Church</p>
-      <p className="absolute bottom-3 right-3 text-[10px] text-white/70 z-10" style={{ textShadow: "1px 1px 0 #000" }}>{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
+      <div className="absolute bottom-0 left-0 right-0 bg-black/80 px-4 py-2 flex justify-between z-10">
+        <p className="text-[10px] text-white/90">VerseCraft v0.2.0 — Futures Church</p>
+        <p className="text-[10px] text-white/90">{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
+      </div>
     </div>
   );
 }
