@@ -413,6 +413,13 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
   const { campuses, loading } = useSupabaseCampuses();
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Auto-select if only 1 campus is active
+  useEffect(() => {
+    if (!loading && campuses.length === 1) {
+      onSelect(campuses[0].id);
+    }
+  }, [loading, campuses, onSelect]);
+
   if (loading) {
     return (
       <div className="h-full flex items-center justify-center"
@@ -420,6 +427,20 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
         <div className="text-center">
           <div className="text-4xl mb-3">⛏️</div>
           <p className="text-white">Loading campuses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If only 1 campus, show a loading state while auto-selecting
+  if (campuses.length === 1) {
+    return (
+      <div className="h-full flex items-center justify-center"
+        style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
+        <div className="text-center">
+          <div className="text-4xl mb-3">🏰</div>
+          <p className="text-white text-lg font-bold" style={{ textShadow: "2px 2px 0 #000" }}>{campuses[0].name}</p>
+          <p className="text-gray-200 text-sm mt-1">Loading your campus...</p>
         </div>
       </div>
     );
@@ -673,8 +694,8 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </button>
       </div>
 
-      <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">BibleCraft v0.1.0 — Futures Church</p>
-      <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">{campusCount} Campuses Connected</p>
+      <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">BibleCraft v0.2.0 — Futures Church</p>
+      <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
     </div>
   );
 }
