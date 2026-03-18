@@ -27,6 +27,17 @@ export interface PastorInput {
 }
 
 /**
+ * Generated content structure from Claude API
+ */
+interface ClaudeGeneratedContent {
+  build_scene: BuildSceneConfig;
+  verse_quest: VerseQuestConfig;
+  explore_adventure: ExploreAdventureConfig;
+  hero_card: HeroCardConfig;
+  team_mission: TeamMissionConfig;
+}
+
+/**
  * Deterministic template-based content generation
  * Creates varied content based on pastor inputs
  */
@@ -238,17 +249,78 @@ function generateTeamMission(input: PastorInput): TeamMissionConfig {
 }
 
 /**
+ * Generate content using the Claude API via Netlify function
+ * This creates more creative, AI-generated content
+ */
+async function generateWithClaudeAPI(
+  input: PastorInput
+): Promise<ClaudeGeneratedContent | null> {
+  try {
+    const response = await fetch('/.netlify/functions/generate-content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        theme: input.theme,
+        virtue: input.virtue,
+        bibleStoryTitle: input.bibleStoryTitle,
+        bibleStoryReference: input.bibleStoryReference,
+        bibleStorySummary: input.bibleStorySummary,
+        memoryVerseText: input.memoryVerseText,
+        memoryVerseReference: input.memoryVerseReference,
+        bottomLine: input.bottomLine,
+        application: input.application,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.warn('Claude API call failed:', error);
+      return null;
+    }
+
+    const generatedContent: ClaudeGeneratedContent = await response.json();
+    return generatedContent;
+  } catch (error) {
+    console.warn('Error calling Claude API:', error);
+    return null;
+  }
+}
+
+/**
  * Generate a complete week of gamified content from pastor inputs
+ * Tries Claude API first, falls back to template-based generation
  * Saves to Supabase and returns the generated content
  */
 export async function generateWeeklyContent(input: PastorInput) {
   try {
-    // Generate all content components
-    const buildScene = generateBuildScene(input);
-    const verseQuest = generateVerseQuest(input);
-    const exploreAdventure = generateExploreAdventure(input);
-    const heroCard = generateHeroCard(input);
-    const teamMission = generateTeamMission(input);
+    // Try to use Claude API for more creative content
+    let buildScene: BuildSceneConfig;
+    let verseQuest: VerseQuestConfig;
+    let exploreAdventure: ExploreAdventureConfig;
+    let heroCard: HeroCardConfig;
+    let teamMission: TeamMissionConfig;
+
+    const claudeContent = await generateWithClaudeAPI(input);
+
+    if (claudeContent) {
+      // Use Claude-generated content
+      console.log('Using Claude API-generated content');
+      buildScene = claudeContent.build_scene;
+      verseQuest = claudeContent.verse_quest;
+      exploreAdventure = claudeContent.explore_adventure;
+      heroCard = claudeContent.hero_card;
+      teamMission = claudeContent.team_mission;
+    } else {
+      // Fall back to template-based generation
+      console.log('Falling back to template-based content generation');
+      buildScene = generateBuildScene(input);
+      verseQuest = generateVerseQuest(input);
+      exploreAdventure = generateExploreAdventure(input);
+      heroCard = generateHeroCard(input);
+      teamMission = generateTeamMission(input);
+    }
 
     const generatedConfig: GeneratedContentConfig = {
       build_scene: buildScene,
