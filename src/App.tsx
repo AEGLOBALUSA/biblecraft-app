@@ -6,7 +6,7 @@ import { generateSafeNameSuggestions } from "./lib/safe-names";
 import { PrivacyNotice } from "./components/PrivacyNotice";
 
 // ─── TYPES ───
-type Screen = "title" | "chest" | "kingdom" | "build" | "verse" | "heroes" | "team" | "admin" | "hq";
+type Screen = "title" | "chest" | "kingdom" | "play" | "heroes" | "team" | "admin" | "hq";
 type Rarity = "common" | "rare" | "epic" | "legendary";
 
 interface HeroCard {
@@ -64,8 +64,8 @@ const JERICHO_PIECES: BuildPiece[] = [
   { id:"army", icon:"⚔️", name:"Army", x:62, y:56, placed:false },
 ];
 
-const VERSE_WORDS = "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.".split(" ");
-const HIDDEN_INDICES = [3, 7, 10, 14, 20]; // courageous, afraid, discouraged, God, go
+// const VERSE_WORDS = "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.".split(" ");
+// const HIDDEN_INDICES = [3, 7, 10, 14, 20]; // courageous, afraid, discouraged, God, go
 
 const TEAM_MEMBERS: TeamMember[] = [
   { name:"Jayden_07", icon:"⛏️", builds:4 },
@@ -75,7 +75,6 @@ const TEAM_MEMBERS: TeamMember[] = [
   { name:"HannahJoy", icon:"⚔️", builds:1 },
 ];
 
-
 const CHEST_REWARDS = [
   { icon:"⚔️", name:"SWORD OF THE SPIRIT", desc:"A weapon forged from the Word of God!", rarity:"rare" as Rarity },
   { icon:"🛡️", name:"SHIELD OF FAITH", desc:"Protects you from every fiery arrow!", rarity:"epic" as Rarity },
@@ -83,6 +82,9 @@ const CHEST_REWARDS = [
   { icon:"📜", name:"SCROLL OF WISDOM", desc:"Ancient words for today's adventure!", rarity:"common" as Rarity },
   { icon:"💎", name:"DIAMOND OF TRUTH", desc:"Unbreakable and precious in God's sight!", rarity:"epic" as Rarity },
 ];
+
+// Campus region order (used for grouping in selector)
+const REGION_ORDER = ["North", "South", "East", "West", "Central", "Virtual"];
 
 // ─── HELPERS ───
 const rarityColor = (r: Rarity) => {
@@ -125,6 +127,36 @@ function Sparkles({ active }: { active: boolean }) {
   );
 }
 
+// ─── WOOLLY MASCOT (unused component - kept for future use) ───
+// function WoollyBubble({ text, visible }: { text: string; visible: boolean }) {
+//   if (!visible) return null;
+//   return (
+//     <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 anim-slide">
+//       <div className="bg-white/90 text-black px-4 py-3 rounded-lg shadow-lg border-3 border-gray-800 max-w-xs text-center text-[9px] font-['Press_Start_2P']">
+//         {text}
+//       </div>
+//       <div className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 bg-white/90 rotate-45 border-r-3 border-b-3 border-gray-800" />
+//     </div>
+//   );
+// }
+
+// ─── XP POP ANIMATION ───
+function XPPop({ text, visible, position }: { text: string; visible: boolean; position?: { x: number; y: number } }) {
+  if (!visible) return null;
+  return (
+    <div className="fixed pointer-events-none z-40" style={{
+      left: position?.x ? `${position.x}px` : "50%",
+      top: position?.y ? `${position.y}px` : "50%",
+      transform: "translate(-50%, -50%)",
+      animation: "pop-in .5s ease-out forwards",
+    }}>
+      <div className="text-lg font-bold text-yellow-400" style={{ textShadow: "2px 2px 0 #000" }}>
+        {text}
+      </div>
+    </div>
+  );
+}
+
 // ─── STORY OVERLAY ───
 function StoryOverlay({ tile, onClose }: { tile: KingdomTile | null; onClose: () => void }) {
   if (!tile) return null;
@@ -141,14 +173,155 @@ function StoryOverlay({ tile, onClose }: { tile: KingdomTile | null; onClose: ()
   );
 }
 
-// ─── BOTTOM NAV ───
+// ─── BIBLE STORY MOMENT (Before Build Mode) ───
+function StoryTimeScreen({ tile, onStart }: { tile: KingdomTile; onStart: () => void }) {
+  return (
+    <div className="fixed inset-0 bg-gradient-to-b from-purple-900 via-blue-900 to-black flex flex-col items-center justify-center z-40 p-6">
+      <div className="text-6xl mb-4 anim-pop animate-bounce">{tile.icon}</div>
+      <h2 className="text-3xl text-yellow-400 mb-4 text-center" style={{ textShadow: "2px 2px 0 #000" }}>
+        {tile.name}
+      </h2>
+      <p className="text-[10px] text-gray-200 text-center max-w-lg leading-[2] mb-8">
+        {tile.story}
+      </p>
+      <button onClick={onStart} className="mc-btn mc-btn-green px-8 py-3 text-[12px]">
+        LET'S BUILD!
+      </button>
+    </div>
+  );
+}
+
+// ─── BOTTOM LINE OVERLAY ───
+function BottomLineOverlay({ text, verseRef, onDismiss }: { text: string; verseRef: string; onDismiss: () => void }) {
+  return (
+    <div className="fixed inset-0 bg-black/95 flex flex-col items-center justify-center z-40 p-6" onClick={onDismiss}>
+      <div className="text-center max-w-lg">
+        <h2 className="text-4xl text-yellow-400 mb-4 anim-glow" style={{ textShadow: "3px 3px 0 #000" }}>
+          ✨ {text} ✨
+        </h2>
+        <p className="text-[10px] text-gray-300 mt-4">{verseRef}</p>
+        <button onClick={onDismiss} className="mc-btn mc-btn-gold px-8 py-3 text-[11px] mt-6">
+          GOT IT!
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── PRAYER MOMENT (unused component - kept for future use) ───
+// function PrayerScreen({ onClose }: { onClose: () => void }) {
+//   return (
+//     <div className="fixed inset-0 bg-gradient-to-b from-indigo-900 via-purple-900 to-black flex flex-col items-center justify-center z-40 p-6">
+//       <div className="text-5xl mb-4 anim-pop">🙏</div>
+//       <h2 className="text-2xl text-white mb-4 text-center" style={{ textShadow: "2px 2px 0 #000" }}>
+//         Let's Talk to God!
+//       </h2>
+//       <p className="text-[10px] text-gray-200 text-center max-w-md leading-[2] mb-6">
+//         This week, ask God to help you be brave and strong. When you feel afraid, remember that God is with you. Tell Him what scares you, and ask Him to give you courage.
+//       </p>
+//       <button onClick={onClose} className="mc-btn mc-btn-green px-8 py-3 text-[12px]">
+//         AMEN!
+//       </button>
+//     </div>
+//   );
+// }
+
+// ─── SESSION TIMER (unused component - kept for future use) ───
+// function SessionTimerScreen({ xpEarned, builtsCreated, versesPracticed, onBreak, onMinute }: {
+//   xpEarned: number;
+//   builtsCreated: number;
+//   versesPracticed: number;
+//   onBreak: () => void;
+//   onMinute: () => void;
+// }) {
+//   return (
+//     <div className="fixed inset-0 bg-gradient-to-b from-blue-900 via-green-900 to-black flex flex-col items-center justify-center z-40 p-6">
+//       <div className="text-5xl mb-4 anim-pop">⏰</div>
+//       <h2 className="text-2xl text-yellow-400 mb-4 text-center" style={{ textShadow: "2px 2px 0 #000" }}>
+//         Great Job Today!
+//       </h2>
+//       <p className="text-[10px] text-gray-200 text-center max-w-md mb-6">
+//         You've been playing for 20 minutes! Time for a break. Come back tomorrow for more treasure!
+//       </p>
+//
+//       <div className="bg-black/40 border-2 border-yellow-400 p-4 mb-6 max-w-sm">
+//         <p className="text-[9px] text-center text-yellow-400 mb-3">TODAY'S SUMMARY</p>
+//         <div className="space-y-2 text-[8px]">
+//           <p>⭐ XP Earned: <span className="text-yellow-400">{xpEarned}</span></p>
+//           <p>🔨 Pieces Built: <span className="text-green-400">{builtsCreated}</span></p>
+//           <p>📖 Verses Practiced: <span className="text-cyan-300">{versesPracticed}</span></p>
+//         </div>
+//       </div>
+//
+//       <div className="flex gap-3">
+//         <button onClick={onMinute} className="mc-btn mc-btn-gold px-6 py-3 text-[10px]">
+//           ONE MORE MINUTE
+//         </button>
+//         <button onClick={onBreak} className="mc-btn mc-btn-green px-6 py-3 text-[10px]">
+//           SEE YOU TOMORROW!
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+// ─── ONBOARDING TUTORIAL ───
+function OnboardingTutorial({ step, onNext, onComplete }: { step: number; onNext: () => void; onComplete: () => void }) {
+  const steps = [
+    { title: "Welcome to BibleCraft! 🏰", desc: "Build Bible scenes, learn verses, and collect heroes!" },
+    { title: "Build Bible Scenes! 🔨", desc: "Create amazing stories from the Bible by placing pieces." },
+    { title: "Learn Verses! 📖", desc: "Fill in the blanks to memorize God's Word." },
+    { title: "Collect Heroes! 🃏", desc: "Find and learn about amazing Bible heroes." },
+  ];
+
+  const current = steps[step];
+
+  return (
+    <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 p-6">
+      <div className="text-5xl mb-4 anim-pop">✨</div>
+      <h2 className="text-3xl text-yellow-400 mb-3 text-center" style={{ textShadow: "2px 2px 0 #000" }}>
+        {current.title}
+      </h2>
+      <p className="text-[10px] text-gray-200 text-center max-w-md mb-6">
+        {current.desc}
+      </p>
+      <button
+        onClick={step === 3 ? onComplete : onNext}
+        className="mc-btn mc-btn-green px-8 py-3 text-[12px]"
+      >
+        {step === 3 ? "LET'S GO!" : "NEXT"}
+      </button>
+    </div>
+  );
+}
+
+// ─── HERO DETAIL MODAL ───
+function HeroDetailModal({ hero, onClose }: { hero: HeroCard; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-40 p-6" onClick={onClose}>
+      <div className="text-6xl mb-4 anim-pop">{hero.icon}</div>
+      <p className={`text-lg ${rarityColor(hero.rarity)}`}>{hero.name}</p>
+      <p className="text-[9px] text-cyan-300 mt-2">⚡ {hero.virtue}</p>
+      <p className="text-[8px] text-gray-400 mt-4 max-w-sm text-center leading-[2]">{hero.story}</p>
+      <div className="pixel-border bg-cyan-950/30 border-cyan-400 px-5 py-3 mt-4 text-center">
+        <p className="text-[7px] text-cyan-300 mb-1">{hero.verseRef}</p>
+        <p className="text-[8px] leading-[1.8]">"{hero.verse}"</p>
+      </div>
+      <p className="text-[8px] text-purple-300 mt-4 max-w-sm text-center">
+        When have YOU been {hero.virtue.toLowerCase()} like {hero.name}?
+      </p>
+      <button onClick={onClose} className="mc-btn mc-btn-green px-8 py-2.5 text-[10px] mt-5">CLOSE</button>
+    </div>
+  );
+}
+
+// ─── BOTTOM NAV (4 items) ───
 function BottomNav({ current, onNav }: { current: Screen; onNav: (s: Screen) => void }) {
   const items: { screen: Screen; icon: string; label: string }[] = [
-    { screen:"kingdom", icon:"🏠", label:"KINGDOM" },
-    { screen:"build", icon:"🔨", label:"BUILD" },
+    { screen:"play", icon:"🎮", label:"PLAY" },
     { screen:"heroes", icon:"🃏", label:"HEROES" },
-    { screen:"verse", icon:"📖", label:"VERSES" },
     { screen:"team", icon:"👥", label:"TEAM" },
+    { screen:"kingdom", icon:"🏰", label:"KINGDOM" },
   ];
   return (
     <div className="flex items-center justify-center gap-1 px-2 py-2 bg-black/70 border-t-[3px] border-[#373737]">
@@ -161,11 +334,6 @@ function BottomNav({ current, onNav }: { current: Screen; onNav: (s: Screen) => 
           <span className="text-[5px] mt-0.5 text-gray-300">{it.label}</span>
         </button>
       ))}
-      <button onClick={() => onNav("admin")}
-        className="flex flex-col items-center justify-center w-14 h-14 bg-[#555] border-2 border-[#373737] hover:border-gray-400">
-        <span className="text-xl">⚙️</span>
-        <span className="text-[5px] mt-0.5 text-gray-300">ADMIN</span>
-      </button>
     </div>
   );
 }
@@ -240,9 +408,10 @@ function ParentGate({ onPass }: { onPass: () => void }) {
   );
 }
 
-// ─── CAMPUS SELECT ───
+// ─── CAMPUS SELECT (with regions) ───
 function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) {
   const { campuses, loading } = useSupabaseCampuses();
+  const [searchTerm, setSearchTerm] = useState("");
 
   if (loading) {
     return (
@@ -256,30 +425,72 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
     );
   }
 
+  // Group campuses by region
+  const grouped: Record<string, typeof campuses> = {};
+
+  REGION_ORDER.forEach(region => {
+    grouped[region] = campuses.filter(c => c.region === region || (region === "Virtual" && c.name?.includes("Online")));
+  });
+
+  const filteredCampuses = campuses.filter(c =>
+    c.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="h-full flex flex-col items-center justify-center p-4"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md h-full flex flex-col">
         <h2 className="text-3xl font-bold text-white text-center mb-2" style={{ textShadow: "2px 2px 0 #000" }}>
           Choose Your Campus
         </h2>
-        <p className="text-sm text-gray-200 text-center mb-6">
+        <p className="text-sm text-gray-200 text-center mb-4">
           Where do you play?
         </p>
 
-        <div className="space-y-2 mb-6">
-          {campuses.length > 0 ? (
-            campuses.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => onSelect(c.id)}
-                className="w-full mc-btn py-4 text-left px-4 text-lg hover:bg-green-700"
-              >
-                {c.name}
-              </button>
-            ))
+        <input
+          type="text"
+          placeholder="Search campuses..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full bg-[#222] border-2 border-[#373737] px-4 py-2 text-[9px] text-white mb-4 focus:border-green-400 outline-none"
+        />
+
+        <div className="flex-1 space-y-2 mb-6 overflow-y-auto">
+          {searchTerm ? (
+            filteredCampuses.length > 0 ? (
+              filteredCampuses.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => onSelect(c.id)}
+                  className="w-full mc-btn py-3 text-left px-4 text-sm hover:bg-green-700"
+                >
+                  {c.name}
+                </button>
+              ))
+            ) : (
+              <div className="text-white text-center py-4 text-[9px]">No campuses found</div>
+            )
           ) : (
-            <div className="text-white text-center py-4">No campuses available</div>
+            REGION_ORDER.map(region => {
+              const regionCampuses = grouped[region];
+              if (regionCampuses.length === 0) return null;
+              return (
+                <div key={region}>
+                  <div className="text-[8px] text-yellow-400 font-bold px-2 py-1" style={{ textShadow: "1px 1px 0 #000" }}>
+                    {region}
+                  </div>
+                  {regionCampuses.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => onSelect(c.id)}
+                      className="w-full mc-btn py-3 text-left px-4 text-sm hover:bg-green-700 ml-2"
+                    >
+                      {c.name}
+                    </button>
+                  ))}
+                </div>
+              );
+            })
           )}
         </div>
       </div>
@@ -382,6 +593,25 @@ function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: ()
 // ─── TITLE SCREEN ───
 function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
   const { campuses } = useSupabaseCampuses();
+  const [showAdminGate, setShowAdminGate] = useState(false);
+  const [adminAnswer, setAdminAnswer] = useState("");
+  const [adminProblem] = useState({ a: 5, b: 6, op: "×" as const });
+
+  const handleAdminGearClick = () => {
+    setShowAdminGate(true);
+  };
+
+  const handleAdminSubmit = () => {
+    const correct = adminProblem.a * adminProblem.b;
+    if (parseInt(adminAnswer) === correct) {
+      setShowAdminGate(false);
+      onNav("admin");
+    } else {
+      alert("Incorrect!");
+      setAdminAnswer("");
+    }
+  };
+
   const campusCount = campuses.length || 21;
 
   return (
@@ -390,6 +620,39 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
       <div className="absolute w-28 h-7 bg-white/80 top-14 left-[10%] anim-drift-1" />
       <div className="absolute w-20 h-5 bg-white/80 top-24 left-[55%] anim-drift-2" />
       <div className="absolute w-24 h-6 bg-white/80 top-10 left-[75%] anim-drift-3" />
+
+      {/* Admin Gear Icon (top-right) */}
+      <button
+        onClick={handleAdminGearClick}
+        className="absolute top-4 right-4 text-3xl hover:scale-110 transition z-10"
+        title="Admin (Parent Gate)"
+      >
+        ⚙️
+      </button>
+
+      {/* Admin Gate Modal */}
+      {showAdminGate && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-6">
+          <div className="text-center max-w-md">
+            <p className="text-2xl font-bold text-yellow-400 mb-4">
+              {adminProblem.a} × {adminProblem.b} = ?
+            </p>
+            <input
+              type="number"
+              value={adminAnswer}
+              onChange={(e) => setAdminAnswer(e.target.value)}
+              placeholder="Answer"
+              className="w-full bg-[#222] border-2 border-[#373737] px-4 py-3 text-white text-center font-bold mb-4 focus:border-green-400 outline-none"
+            />
+            <button onClick={handleAdminSubmit} className="mc-btn mc-btn-green w-full py-3 mb-2">
+              Submit
+            </button>
+            <button onClick={() => setShowAdminGate(false)} className="mc-btn w-full py-3">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="relative z-10 text-center mb-12">
         <h1 className="text-4xl md:text-5xl text-white font-bold tracking-wider"
@@ -403,13 +666,10 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
       <div className="relative z-10 flex flex-col gap-3 items-center">
         <button onClick={() => onNav("chest")} className="mc-btn mc-btn-green w-72 py-3.5 text-[12px] text-center">
-          Singleplayer
+          Play Now
         </button>
-        <button onClick={() => onNav("team")} className="mc-btn w-72 py-3.5 text-[12px] text-center">
-          Multiplayer
-        </button>
-        <button onClick={() => onNav("admin")} className="mc-btn w-72 py-3.5 text-[12px] text-center">
-          Admin Panel
+        <button onClick={() => onNav("kingdom")} className="mc-btn w-72 py-3.5 text-[12px] text-center">
+          My Kingdom
         </button>
       </div>
 
@@ -446,7 +706,7 @@ function ChestScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </div>
       ) : (
         <div className="text-center anim-pop">
-          <div className="text-7xl">{reward.icon}</div>
+          <div className="text-7xl mb-2 anim-chest-open">{reward.icon}</div>
           <p className="text-base text-yellow-400 mt-4" style={{ textShadow:"2px 2px 0 #000" }}>
             {reward.name}
           </p>
@@ -501,7 +761,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
       <div className="flex-1 grid grid-cols-3 gap-2 p-3 overflow-y-auto">
         {KINGDOM_TILES.map(tile => (
           <button key={tile.id}
-            onClick={() => tile.status === "completed" ? onStory(tile) : tile.status === "current" ? onNav("build") : null}
+            onClick={() => tile.status === "completed" ? onStory(tile) : tile.status === "current" ? onNav("play") : null}
             disabled={tile.status === "locked"}
             className={`flex flex-col items-center justify-center p-3 min-h-[100px] border-3 transition-all relative ${
               tile.status === "completed" ? "bg-green-900/30 border-green-700 hover:border-green-400" :
@@ -529,19 +789,55 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
   );
 }
 
-// ─── BUILD MODE ───
-function BuildScreen({ onNav }: { onNav: (s: Screen) => void }) {
+// ─── PLAY HUB (combines Build + Verses) ───
+function PlayScreen({ onNav }: { onNav: (s: Screen) => void }) {
+  // For MVP, always show Build mode. Tab switching can be added later.
+  return <BuildScreenContent onNav={onNav} />;
+
+  // Future: Multi-tab support
+  // const [tab, setTab] = useState<"build" | "verse">("build");
+  // return (
+  //   <div className="h-full flex flex-col">
+  //     {tab === "build" ? (
+  //       <BuildScreenContent onNav={onNav} />
+  //     ) : (
+  //       <VerseScreenContent onNav={onNav} />
+  //     )}
+  //   </div>
+  // );
+}
+
+// ─── BUILD MODE (Content Component) ───
+function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
   const [pieces, setPieces] = useState<BuildPiece[]>(JERICHO_PIECES.map(p => ({ ...p })));
+  const [showStoryTime, setShowStoryTime] = useState(true);
   const [showStory, setShowStory] = useState(false);
+  const [showBottomLine, setShowBottomLine] = useState(false);
   const [sparkles, setSparkles] = useState(false);
+  const [xpPops, setXpPops] = useState<Array<{ id: string; visible: boolean }>>([]);
   const placed = pieces.filter(p => p.placed).length;
   const pct = Math.round((placed / pieces.length) * 100);
 
   const place = (id: string) => {
     setPieces(prev => {
       const next = prev.map(p => p.id === id ? { ...p, placed: true } : p);
+      // XP pop for placing piece
+      const popId = `pop-${Date.now()}`;
+      setXpPops(prev => [...prev, { id: popId, visible: true }]);
+      setTimeout(() => {
+        setXpPops(p => p.map(x => x.id === popId ? { ...x, visible: false } : x));
+      }, 800);
+
       if (next.filter(p => p.placed).length === next.length) {
-        setTimeout(() => { setShowStory(true); setSparkles(true); setTimeout(() => setSparkles(false), 2000); }, 600);
+        setTimeout(() => {
+          setShowBottomLine(true);
+          setTimeout(() => setShowBottomLine(false), 3000);
+          setTimeout(() => {
+            setShowStory(true);
+            setSparkles(true);
+            setTimeout(() => setSparkles(false), 2000);
+          }, 3500);
+        }, 600);
       }
       return next;
     });
@@ -549,10 +845,16 @@ function BuildScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
   const jerichoTile = KINGDOM_TILES.find(t => t.id === "jericho")!;
 
+  if (showStoryTime) {
+    return <StoryTimeScreen tile={jerichoTile} onStart={() => setShowStoryTime(false)} />;
+  }
+
   return (
     <div className="h-full flex flex-col"
       style={{ background:"linear-gradient(180deg,#FFA347 0%,#FF8C33 20%,#87CEEB 40%,#5B8731 75%,#8B6914 100%)" }}>
       <Sparkles active={sparkles} />
+      {xpPops.map(pop => <XPPop key={pop.id} text="+10 XP" visible={pop.visible} />)}
+      {showBottomLine && <BottomLineOverlay text="God is bigger than anything you face!" verseRef="Joshua 1:9" onDismiss={() => setShowBottomLine(false)} />}
       {showStory && <StoryOverlay tile={jerichoTile} onClose={() => { setShowStory(false); onNav("kingdom"); }} />}
 
       <div className="flex items-center justify-between px-4 py-3 bg-black/60 border-b-[3px] border-[#373737]">
@@ -565,6 +867,14 @@ function BuildScreen({ onNav }: { onNav: (s: Screen) => void }) {
           {/* Ground */}
           <div className="absolute bottom-0 left-0 right-0 h-[30%]"
             style={{ background:"linear-gradient(180deg,#5B8731 0%,#5B8731 15%,#8B6914 15%)" }} />
+
+          {/* Ghost outlines for pieces */}
+          {JERICHO_PIECES.map(p => (
+            <div key={`ghost-${p.id}`} className="absolute text-4xl opacity-20 text-gray-400" style={{ left:`${p.x}%`, bottom:`${p.y}%` }}>
+              {p.icon}
+            </div>
+          ))}
+
           {/* Placed pieces */}
           {pieces.filter(p => p.placed).map(p => (
             <div key={p.id} className="absolute text-4xl anim-place" style={{ left:`${p.x}%`, bottom:`${p.y}%` }}>
@@ -602,79 +912,92 @@ function BuildScreen({ onNav }: { onNav: (s: Screen) => void }) {
   );
 }
 
-// ─── VERSE QUEST ───
-function VerseScreen({ onNav }: { onNav: (s: Screen) => void }) {
-  const [solved, setSolved] = useState<Set<number>>(new Set());
-  const [selected, setSelected] = useState<string | null>(null);
-  const [sparkles, setSparkles] = useState(false);
-  const choices = HIDDEN_INDICES.map(i => VERSE_WORDS[i]);
-  const allSolved = solved.size === HIDDEN_INDICES.length;
-
-  const tryWord = (idx: number) => {
-    if (!selected) return;
-    if (VERSE_WORDS[idx] === selected) {
-      const next = new Set(solved);
-      next.add(idx);
-      setSolved(next);
-      setSelected(null);
-      if (next.size === HIDDEN_INDICES.length) {
-        setSparkles(true);
-        setTimeout(() => setSparkles(false), 2000);
-      }
-    }
-  };
-
-  return (
-    <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#0a0a2e,#1a0a3e 50%,#0a0a1e)" }}>
-      <Sparkles active={sparkles} />
-      <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
-        <p className="text-[11px]">📖 Verse Quest</p>
-        <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
-      </div>
-
-      <div className="flex-1 flex flex-col items-center justify-center px-5 max-w-2xl mx-auto w-full">
-        <p className="text-[8px] text-yellow-400 mb-3">
-          {allSolved ? "VERSE COMPLETE! +50 XP ✨" : "ROUND 2 — Fill in the blanks!"}
-        </p>
-        <p className="text-[10px] text-cyan-300 mb-5">Joshua 1:9</p>
-
-        <div className="flex flex-wrap justify-center gap-1.5 mb-8">
-          {VERSE_WORDS.map((word, i) => {
-            const isHidden = HIDDEN_INDICES.includes(i);
-            const isSolved = solved.has(i);
-            if (!isHidden) {
-              return <span key={i} className="text-[11px] px-2 py-1.5 bg-white/10 border-2 border-[#373737]">{word}</span>;
-            }
-            if (isSolved) {
-              return <span key={i} className="text-[11px] px-2 py-1.5 bg-green-900/30 border-2 border-green-500 text-green-400 anim-word">{word}</span>;
-            }
-            return (
-              <button key={i} onClick={() => tryWord(i)}
-                className="text-[11px] px-2 py-1.5 bg-white/5 border-2 border-[#444] text-transparent min-w-[56px] hover:border-yellow-400 hover:bg-yellow-900/10 cursor-pointer">
-                {word}
-              </button>
-            );
-          })}
-        </div>
-
-        {!allSolved && (
-          <div className="flex flex-wrap justify-center gap-2">
-            {choices.filter(w => !Array.from(solved).some(si => VERSE_WORDS[si] === w)).map((word, i) => (
-              <button key={i} onClick={() => setSelected(word)}
-                className={`text-[10px] px-4 py-2.5 bg-[#555] border-3 transition-all cursor-pointer ${
-                  selected === word ? "border-yellow-400 bg-[#666]" : "border-[#373737] hover:border-gray-400"
-                }`}>
-                {word}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <BottomNav current="verse" onNav={onNav} />
-    </div>
-  );
-}
+// ─── VERSE QUEST (Content Component - unused but kept for future use) ───
+// function VerseScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
+//   const [solved, setSolved] = useState<Set<number>>(new Set());
+//   const [selected, setSelected] = useState<string | null>(null);
+//   const [sparkles, setSparkles] = useState(false);
+//   const [xpPops, setXpPops] = useState<Array<{ id: string; visible: boolean }>>([]);
+//   const [combo, setCombo] = useState(0);
+//   const choices = HIDDEN_INDICES.map(i => VERSE_WORDS[i]);
+//   const allSolved = solved.size === HIDDEN_INDICES.length;
+//
+//   const tryWord = (idx: number) => {
+//     if (!selected) return;
+//     if (VERSE_WORDS[idx] === selected) {
+//       const next = new Set(solved);
+//       next.add(idx);
+//       setSolved(next);
+//       setSelected(null);
+//       setCombo(combo + 1);
+//
+//       // XP pop
+//       const popId = `pop-${Date.now()}`;
+//       setXpPops(prev => [...prev, { id: popId, visible: true }]);
+//       setTimeout(() => {
+//         setXpPops(p => p.map(x => x.id === popId ? { ...x, visible: false } : x));
+//       }, 800);
+//
+//       if (next.size === HIDDEN_INDICES.length) {
+//         setSparkles(true);
+//         setTimeout(() => setSparkles(false), 2000);
+//       }
+//     }
+//   };
+//
+//   return (
+//     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#0a0a2e,#1a0a3e 50%,#0a0a1e)" }}>
+//       <Sparkles active={sparkles} />
+//       {xpPops.map(pop => <XPPop key={pop.id} text="+5 XP" visible={pop.visible} />)}
+//
+//       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
+//         <p className="text-[11px]">📖 Verse Quest</p>
+//         <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
+//       </div>
+//
+//       <div className="flex-1 flex flex-col items-center justify-center px-5 max-w-2xl mx-auto w-full">
+//         <p className="text-[8px] text-yellow-400 mb-3">
+//           {allSolved ? "VERSE COMPLETE! +50 XP BONUS! ✨" : `COMBO: ${combo}`}
+//         </p>
+//         <p className="text-[10px] text-cyan-300 mb-5">Joshua 1:9</p>
+//
+//         <div className="flex flex-wrap justify-center gap-1.5 mb-8">
+//           {VERSE_WORDS.map((word, i) => {
+//             const isHidden = HIDDEN_INDICES.includes(i);
+//             const isSolved = solved.has(i);
+//             if (!isHidden) {
+//               return <span key={i} className="text-[11px] px-2 py-1.5 bg-white/10 border-2 border-[#373737]">{word}</span>;
+//             }
+//             if (isSolved) {
+//               return <span key={i} className="text-[11px] px-2 py-1.5 bg-green-900/30 border-2 border-green-500 text-green-400 anim-word">{word}</span>;
+//             }
+//             return (
+//               <button key={i} onClick={() => tryWord(i)}
+//                 className="text-[11px] px-2 py-1.5 bg-white/5 border-2 border-[#444] text-transparent min-w-[56px] hover:border-yellow-400 hover:bg-yellow-900/10 cursor-pointer">
+//                 {word}
+//               </button>
+//             );
+//           })}
+//         </div>
+//
+//         {!allSolved && (
+//           <div className="flex flex-wrap justify-center gap-2">
+//             {choices.filter(w => !Array.from(solved).some(si => VERSE_WORDS[si] === w)).map((word, i) => (
+//               <button key={i} onClick={() => setSelected(word)}
+//                 className={`text-[10px] px-4 py-2.5 bg-[#555] border-3 transition-all cursor-pointer ${
+//                   selected === word ? "border-yellow-400 bg-[#666]" : "border-[#373737] hover:border-gray-400"
+//                 }`}>
+//                 {word}
+//               </button>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//
+//       <BottomNav current="play" onNav={onNav} />
+//     </div>
+//   );
+// }
 
 // ─── HEROES COLLECTION ───
 function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
@@ -691,26 +1014,14 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
     verseRef: h.verse_reference,
     story: h.story_summary,
     rarity: h.rarity,
-    collected: true, // Mark as collected if it exists in database
+    collected: true,
   }));
 
   const collected = heroes.length;
 
   return (
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1a1a2e,#16213e)" }}>
-      {selectedHero && (
-        <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-40 p-6" onClick={() => setSelectedHero(null)}>
-          <div className="text-6xl mb-4 anim-pop">{selectedHero.icon}</div>
-          <p className={`text-lg ${rarityColor(selectedHero.rarity)}`}>{selectedHero.name}</p>
-          <p className="text-[9px] text-cyan-300 mt-2">⚡ {selectedHero.virtue}</p>
-          <p className="text-[8px] text-gray-400 mt-4 max-w-sm text-center leading-[2]">{selectedHero.story}</p>
-          <div className="pixel-border bg-cyan-950/30 border-cyan-400 px-5 py-3 mt-4 text-center">
-            <p className="text-[7px] text-cyan-300 mb-1">{selectedHero.verseRef}</p>
-            <p className="text-[8px] leading-[1.8]">"{selectedHero.verse}"</p>
-          </div>
-          <button className="mc-btn mc-btn-green px-8 py-2.5 text-[10px] mt-5">CLOSE</button>
-        </div>
-      )}
+      {selectedHero && <HeroDetailModal hero={selectedHero} onClose={() => setSelectedHero(null)} />}
 
       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🃏 Bible Heroes</p>
@@ -721,13 +1032,19 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
         {(heroes.length > 0 ? heroes : FALLBACK_HEROES).map(hero => (
           <button key={hero.id}
             onClick={() => hero.collected && setSelectedHero(hero)}
-            className={`p-3 text-center border-3 transition-all relative ${
+            className={`p-3 text-center border-3 transition-all relative anim-bounce ${
               hero.collected
                 ? `${rarityBg(hero.rarity)} hover:translate-y-[-3px] hover:border-yellow-400 cursor-pointer`
                 : "bg-black/60 border-[#333] cursor-default"
             }`}>
             {hero.collected && hero.rarity === "legendary" && (
               <span className="absolute top-1 right-1 text-[6px] text-yellow-400 border border-yellow-400 px-1">★ GOLD</span>
+            )}
+            {hero.collected && hero.rarity === "epic" && (
+              <span className="absolute top-1 right-1 text-[6px] border border-purple-400 px-1" style={{ color: "#B44BFF" }}>⚡</span>
+            )}
+            {hero.collected && hero.rarity === "rare" && (
+              <span className="absolute top-1 right-1 text-[6px] border border-cyan-400 px-1" style={{ color: "#5CE8E8" }}>✦</span>
             )}
             <span className={`text-3xl ${!hero.collected ? "opacity-20 grayscale" : ""}`}>{hero.icon}</span>
             <p className={`text-[7px] mt-2 ${!hero.collected ? "text-[#555]" : ""}`}>{hero.collected ? hero.name : "???"}</p>
@@ -834,7 +1151,7 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
       </div>
 
       <div className="px-3 py-3">
-        <button onClick={() => onNav("build")} className="mc-btn mc-btn-green w-full py-3 text-[10px] text-center">
+        <button onClick={() => onNav("play")} className="mc-btn mc-btn-green w-full py-3 text-[10px] text-center">
           HELP YOUR TEAM — BUILD NOW!
         </button>
       </div>
@@ -1154,17 +1471,26 @@ export default function App() {
   const [authStage, setAuthStage] = useState<"check" | "gate" | "campus" | "name" | "ready">("check");
   const [selectedCampus, setSelectedCampus] = useState<string>("");
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(0);
 
-  const nav = useCallback((s: Screen) => setScreen(s), []);
+  const nav = useCallback((s: Screen) => {
+    setScreen(s);
+  }, []);
 
   // Check auth status on mount
   useEffect(() => {
     async function checkAuth() {
       const parentGatePassed = localStorage.getItem("biblecraft_parent_gate_passed") === "true";
+      const hasSeenOnboarding = localStorage.getItem("biblecraft_onboarding_seen") === "true";
       const player = await getPlayerProfile();
 
       if (player) {
         // Returning player - skip to game
+        if (!hasSeenOnboarding) {
+          setShowOnboarding(true);
+          setOnboardingStep(0);
+        }
         setAuthStage("ready");
         setScreen("title");
       } else if (parentGatePassed) {
@@ -1191,12 +1517,32 @@ export default function App() {
   const handleNameComplete = () => {
     setAuthStage("ready");
     setScreen("title");
+    setShowOnboarding(true);
+    setOnboardingStep(0);
+  };
+
+  const handleOnboardingNext = () => {
+    if (onboardingStep < 3) {
+      setOnboardingStep(onboardingStep + 1);
+    }
+  };
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem("biblecraft_onboarding_seen", "true");
+    setShowOnboarding(false);
   };
 
   return (
     <div className="h-screen w-screen overflow-hidden">
       {storyTile && <StoryOverlay tile={storyTile} onClose={() => setStoryTile(null)} />}
       {showPrivacy && <PrivacyNotice onClose={() => setShowPrivacy(false)} />}
+      {showOnboarding && (
+        <OnboardingTutorial
+          step={onboardingStep}
+          onNext={handleOnboardingNext}
+          onComplete={handleOnboardingComplete}
+        />
+      )}
 
       {/* Auth flow */}
       {authStage === "gate" && <ParentGate onPass={handleParentGatePassed} />}
@@ -1209,8 +1555,7 @@ export default function App() {
           {screen === "title" && <TitleScreen onNav={nav} />}
           {screen === "chest" && <ChestScreen onNav={nav} />}
           {screen === "kingdom" && <KingdomScreen onNav={nav} onStory={setStoryTile} />}
-          {screen === "build" && <BuildScreen onNav={nav} />}
-          {screen === "verse" && <VerseScreen onNav={nav} />}
+          {screen === "play" && <PlayScreen onNav={nav} />}
           {screen === "heroes" && <HeroesScreen onNav={nav} />}
           {screen === "team" && <TeamScreen onNav={nav} />}
           {screen === "admin" && <AdminScreen onNav={nav} />}

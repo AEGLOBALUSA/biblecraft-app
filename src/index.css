@@ -54,6 +54,15 @@ body {
 @keyframes place-block { 0%{transform:scale(1.5)} 50%{transform:scale(.85)} 100%{transform:scale(1)} }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.5} }
 @keyframes word-pop { 0%{transform:scale(1.4);color:#7FFF00} 100%{transform:scale(1)} }
+@keyframes chest-open { 0%{transform:scale(0) rotateY(0deg)} 50%{transform:scale(1.2)} 100%{transform:scale(1) rotateY(360deg)} }
+@keyframes wobble { 0%,100%{transform:translateY(0deg)} 25%{transform:translateY(-3px)} 75%{transform:translateY(3px)} }
+@keyframes rarity-glow-gold { 0%,100%{box-shadow:0 0 8px rgba(255,215,0,.4), inset 0 0 8px rgba(255,215,0,.2)} 50%{box-shadow:0 0 20px rgba(255,215,0,.8), inset 0 0 16px rgba(255,215,0,.4)} }
+@keyframes rarity-glow-purple { 0%,100%{box-shadow:0 0 8px rgba(180,75,255,.4), inset 0 0 8px rgba(180,75,255,.2)} 50%{box-shadow:0 0 20px rgba(180,75,255,.8), inset 0 0 16px rgba(180,75,255,.4)} }
+@keyframes rarity-glow-blue { 0%,100%{box-shadow:0 0 8px rgba(92,232,232,.4), inset 0 0 8px rgba(92,232,232,.2)} 50%{box-shadow:0 0 20px rgba(92,232,232,.8), inset 0 0 16px rgba(92,232,232,.4)} }
+@keyframes xp-float { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-60px);opacity:0} }
+@keyframes explosion { 0%{transform:scale(1);opacity:1} 100%{transform:scale(3);opacity:0} }
+@keyframes screen-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+@keyframes fade-black { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
 
 .anim-bounce { animation: bounce-slow 1.2s ease-in-out infinite; }
 .anim-glow { animation: pulse-glow 2s ease-in-out infinite; }
@@ -65,6 +74,15 @@ body {
 .anim-place { animation: place-block .3s ease-out; }
 .anim-blink { animation: blink 1.5s infinite; }
 .anim-word { animation: word-pop .3s ease-out; }
+.anim-chest-open { animation: chest-open .8s ease-out; }
+.anim-wobble { animation: wobble 2s ease-in-out infinite; }
+.anim-rarity-gold { animation: rarity-glow-gold 1.5s ease-in-out infinite; }
+.anim-rarity-purple { animation: rarity-glow-purple 1.5s ease-in-out infinite; }
+.anim-rarity-blue { animation: rarity-glow-blue 1.5s ease-in-out infinite; }
+.anim-xp { animation: xp-float .8s ease-out forwards; }
+.anim-explosion { animation: explosion .6s ease-out forwards; }
+.anim-shake { animation: screen-shake .3s ease-in-out; }
+.anim-fade-black { animation: fade-black .4s ease-in-out; }
 
 /* Minecraft button styles */
 .mc-btn {
