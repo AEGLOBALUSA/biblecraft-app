@@ -13,7 +13,7 @@ export function PrivacyNotice({ onClose }: { onClose: () => void }) {
           <section>
             <h3 className="text-green-400 font-bold mb-2">What We Collect</h3>
             <p>
-              BibleCraft only collects a display name of your choice (like "BraveElijah42"). We do NOT collect:
+              VerseCraft only collects a display name of your choice (like "BraveElijah42"). We do NOT collect:
             </p>
             <ul className="list-disc list-inside mt-1 text-gray-300 space-y-1">
               <li>Your real name or personal information</li>
@@ -39,7 +39,7 @@ export function PrivacyNotice({ onClose }: { onClose: () => void }) {
           <section>
             <h3 className="text-green-400 font-bold mb-2">No Tracking or Ads</h3>
             <p>
-              BibleCraft does not:
+              VerseCraft does not:
             </p>
             <ul className="list-disc list-inside mt-1 text-gray-300 space-y-1">
               <li>Track you across websites or apps</li>
@@ -59,7 +59,7 @@ export function PrivacyNotice({ onClose }: { onClose: () => void }) {
           <section>
             <h3 className="text-green-400 font-bold mb-2">Questions?</h3>
             <p>
-              Contact your campus pastor or visit biblecraft.church for more information.
+              Contact your campus pastor or visit versecraft.church for more information.
             </p>
           </section>
         </div>

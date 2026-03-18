@@ -1,7 +1,7 @@
 {
-  "name": "BibleCraft",
-  "short_name": "BibleCraft",
-  "description": "Build. Explore. Believe. A Minecraft-themed Bible learning game for kids.",
+  "name": "VerseCraft",
+  "short_name": "VerseCraft",
+  "description": "Build. Learn. Believe. A Minecraft-themed Bible learning game for kids.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -46,7 +46,7 @@
     {
       "name": "Play Game",
       "short_name": "Play",
-      "description": "Start playing BibleCraft",
+      "description": "Start playing VerseCraft",
       "url": "/?action=play",
       "icons": [
         {

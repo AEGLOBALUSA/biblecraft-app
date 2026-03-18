@@ -1,5 +1,5 @@
 /**
- * BibleCraft Database Types
+ * VerseCraft Database Types
  * Auto-generated types matching Supabase schema
  * Version: 1.0
  */

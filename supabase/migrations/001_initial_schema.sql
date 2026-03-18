@@ -1,4 +1,4 @@
--- BibleCraft Initial Database Schema
+-- VerseCraft Initial Database Schema
 -- Version: 1.0
 -- Multi-campus game platform for ages 5-8
 

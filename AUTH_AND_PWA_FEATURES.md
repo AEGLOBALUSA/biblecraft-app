@@ -1,7 +1,7 @@
-# BibleCraft: Authentication, PWA & COPPA Compliance
+# VerseCraft: Authentication, PWA & COPPA Compliance
 
 ## Overview
-This document describes the three major features added to BibleCraft: Player Authentication, PWA Conversion, and COPPA Compliance.
+This document describes the three major features added to VerseCraft: Player Authentication, PWA Conversion, and COPPA Compliance.
 
 ---
 
@@ -74,7 +74,7 @@ ADD COLUMN is_anonymous BOOLEAN DEFAULT TRUE;
 ### Features
 
 #### Web App Manifest (`manifest.json`)
-- Name: "BibleCraft"
+- Name: "VerseCraft"
 - Display: "standalone" (full-screen app experience)
 - Theme Color: Green (#4ade80)
 - Background: Brown (#3b2507)
@@ -100,11 +100,11 @@ Two-strategy approach:
 <meta name="theme-color" content="#4ade80" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="BibleCraft" />
+<meta name="apple-mobile-web-app-title" content="VerseCraft" />
 ```
 
 #### Installability
-- Users can "Install" BibleCraft on their home screen
+- Users can "Install" VerseCraft on their home screen
 - iOS: "Add to Home Screen" in Safari
 - Android: "Install App" in Chrome
 - Works offline for all cached content

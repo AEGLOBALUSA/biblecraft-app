@@ -1,4 +1,4 @@
--- BibleCraft Team Missions Update
+-- VerseCraft Team Missions Update
 -- Version: 2.0
 -- Adds tiered reward structure and celebration messaging for child-appropriate missions
 

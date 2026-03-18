@@ -93,7 +93,7 @@ const handler = async (req: Request): Promise<Response> => {
     const client = new Anthropic({ apiKey });
 
     // Create the prompt for Claude
-    const systemPrompt = `You are a creative game designer for BibleCraft, a gamified Bible learning app for children ages 5-9. Your role is to generate engaging, age-appropriate content that teaches Biblical virtues through interactive games.
+    const systemPrompt = `You are a creative game designer for VerseCraft, a gamified Bible learning app for children ages 5-9. Your role is to generate engaging, age-appropriate content that teaches Biblical virtues through interactive games.
 
 Generate JSON that exactly matches this TypeScript structure. Output ONLY valid JSON, no markdown, no explanations.
 

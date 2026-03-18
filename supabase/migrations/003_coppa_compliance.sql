@@ -1,4 +1,4 @@
--- BibleCraft COPPA Compliance Migration
+-- VerseCraft COPPA Compliance Migration
 -- Adds parent consent tracking and anonymity enforcement
 -- Removes any PII-storing columns
 

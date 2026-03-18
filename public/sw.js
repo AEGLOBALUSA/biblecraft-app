@@ -1,10 +1,10 @@
 /**
- * BibleCraft Service Worker
+ * VerseCraft Service Worker
  * Cache-first for static assets, network-first for API calls
  * Enables offline fallback and PWA installability
  */
 
-const CACHE_NAME = 'biblecraft-v1';
+const CACHE_NAME = 'versecraft-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
   '/manifest.json',
 ];
 
-const API_CACHE = 'biblecraft-api-v1';
+const API_CACHE = 'versecraft-api-v1';
 
 /**
  * Install event - cache static assets
@@ -144,8 +144,8 @@ self.addEventListener('push', (event) => {
     body: data.body || 'You have a new message',
     icon: '/icon-192.png',
     badge: '/icon-192.png',
-    tag: 'biblecraft-notification',
+    tag: 'versecraft-notification',
   };
 
-  event.waitUntil(self.registration.showNotification(data.title || 'BibleCraft', options));
+  event.waitUntil(self.registration.showNotification(data.title || 'VerseCraft', options));
 });

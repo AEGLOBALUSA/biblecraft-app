@@ -268,7 +268,7 @@ function BottomLineOverlay({ text, verseRef, onDismiss }: { text: string; verseR
 // ─── ONBOARDING TUTORIAL ───
 function OnboardingTutorial({ step, onNext, onComplete }: { step: number; onNext: () => void; onComplete: () => void }) {
   const steps = [
-    { title: "Welcome to BibleCraft! 🏰", desc: "Build Bible scenes, learn verses, and collect heroes!" },
+    { title: "Welcome to VerseCraft! 🏰", desc: "Build Bible scenes, learn verses, and collect heroes!" },
     { title: "Build Bible Scenes! 🔨", desc: "Create amazing stories from the Bible by placing pieces." },
     { title: "Learn Verses! 📖", desc: "Fill in the blanks to memorize God's Word." },
     { title: "Collect Heroes! 🃏", desc: "Find and learn about amazing Bible heroes." },
@@ -359,7 +359,7 @@ function ParentGate({ onPass }: { onPass: () => void }) {
     const correct = problem.op === "×" ? problem.a * problem.b : problem.a + problem.b;
     if (parseInt(answer) === correct) {
       setSolved(true);
-      localStorage.setItem("biblecraft_parent_gate_passed", "true");
+      localStorage.setItem("versecraft_parent_gate_passed", "true");
       setTimeout(onPass, 1000);
     } else {
       setAnswer("");
@@ -678,10 +678,10 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
       <div className="relative z-10 text-center mb-12">
         <h1 className="text-4xl md:text-5xl text-white font-bold tracking-wider"
           style={{ textShadow:"4px 4px 0 #3F3F3F, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000" }}>
-          BIBLECRAFT
+          VERSECRAFT
         </h1>
         <p className="text-[10px] text-yellow-400 mt-2 tracking-widest" style={{ textShadow:"2px 2px 0 #000" }}>
-          BUILD &bull; EXPLORE &bull; BELIEVE
+          BUILD &bull; LEARN &bull; BELIEVE
         </p>
       </div>
 
@@ -694,7 +694,7 @@ function TitleScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </button>
       </div>
 
-      <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">BibleCraft v0.2.0 — Futures Church</p>
+      <p className="absolute bottom-3 left-3 text-[7px] text-white/40 z-10">VerseCraft v0.2.0 — Futures Church</p>
       <p className="absolute bottom-3 right-3 text-[7px] text-white/40 z-10">{campusCount === 1 ? "Futures Alpharetta" : `${campusCount} Campuses Connected`}</p>
     </div>
   );
@@ -1259,7 +1259,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
   return (
     <div className="h-full flex flex-col bg-[#0f1520]">
       <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
-        <p className="text-[11px]">⚙️ BibleCraft Admin</p>
+        <p className="text-[11px]">⚙️ VerseCraft Admin</p>
         <button onClick={() => onNav("kingdom")} className="text-[9px] text-gray-400 hover:text-white">← BACK</button>
       </div>
 
@@ -1502,8 +1502,8 @@ export default function App() {
   // Check auth status on mount
   useEffect(() => {
     async function checkAuth() {
-      const parentGatePassed = localStorage.getItem("biblecraft_parent_gate_passed") === "true";
-      const hasSeenOnboarding = localStorage.getItem("biblecraft_onboarding_seen") === "true";
+      const parentGatePassed = localStorage.getItem("versecraft_parent_gate_passed") === "true";
+      const hasSeenOnboarding = localStorage.getItem("versecraft_onboarding_seen") === "true";
       const player = await getPlayerProfile();
 
       if (player) {
@@ -1549,7 +1549,7 @@ export default function App() {
   };
 
   const handleOnboardingComplete = () => {
-    localStorage.setItem("biblecraft_onboarding_seen", "true");
+    localStorage.setItem("versecraft_onboarding_seen", "true");
     setShowOnboarding(false);
   };
 

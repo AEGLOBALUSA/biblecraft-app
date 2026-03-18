@@ -1,5 +1,5 @@
 /**
- * BibleCraft Authentication System
+ * VerseCraft Authentication System
  * COPPA-Compliant: Anonymous auth with parent gate
  * No PII collection - display names only
  */
