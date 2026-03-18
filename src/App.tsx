@@ -379,7 +379,7 @@ function ParentGate({ onPass }: { onPass: () => void }) {
           Parents: Please solve this math problem to let your child play.
         </p>
 
-        <div className="bg-black/30 border-4 border-[#373737] p-6 mb-6 rounded">
+        <div className="bg-black/70 border-4 border-[#373737] p-6 mb-6 rounded">
           <p className="text-3xl font-bold text-yellow-400 mb-4">
             {problem.a} {problem.op} {problem.b} = ?
           </p>
@@ -400,7 +400,7 @@ function ParentGate({ onPass }: { onPass: () => void }) {
           </button>
         </div>
 
-        <p className="text-[10px] text-gray-400">
+        <p className="text-[10px] text-gray-400 bg-black/70 px-3 py-2 rounded">
           This gate ensures kids know a trusted adult is aware they're playing. ✨
         </p>
       </div>
@@ -461,10 +461,10 @@ function CampusSelector({ onSelect }: { onSelect: (campusId: string) => void }) 
     <div className="h-full flex flex-col items-center justify-center p-4"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
       <div className="w-full max-w-md h-full flex flex-col">
-        <h2 className="text-3xl font-bold text-white text-center mb-2" style={{ textShadow: "2px 2px 0 #000" }}>
+        <h2 className="text-3xl font-bold text-white text-center mb-2 bg-black/70 px-3 py-2 rounded" style={{ textShadow: "2px 2px 0 #000" }}>
           Choose Your Campus
         </h2>
-        <p className="text-sm text-gray-200 text-center mb-4">
+        <p className="text-sm text-gray-200 text-center mb-4 bg-black/70 px-3 py-2 rounded">
           Where do you play?
         </p>
 
@@ -559,10 +559,10 @@ function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: ()
     <div className="h-full flex flex-col items-center justify-center p-4"
       style={{ background: "linear-gradient(180deg,#87CEEB 0%,#5B8731 50%,#8B6914 100%)" }}>
       <div className="w-full max-w-md">
-        <h2 className="text-3xl font-bold text-white text-center mb-2" style={{ textShadow: "2px 2px 0 #000" }}>
+        <h2 className="text-3xl font-bold text-white text-center mb-2 bg-black/70 px-3 py-2 rounded" style={{ textShadow: "2px 2px 0 #000" }}>
           Pick Your Name
         </h2>
-        <p className="text-sm text-gray-200 text-center mb-6">
+        <p className="text-sm text-gray-200 text-center mb-6 bg-black/70 px-3 py-2 rounded">
           Choose a brave name to start your adventure!
         </p>
 
@@ -603,7 +603,7 @@ function NamePicker({ campusId, onComplete }: { campusId: string; onComplete: ()
           {creating ? "Creating..." : "Start Adventure"}
         </button>
 
-        <p className="text-[10px] text-gray-400 text-center mt-4">
+        <p className="text-[10px] text-gray-400 text-center mt-4 bg-black/70 px-3 py-2 rounded">
           Your name is safe and only visible in your campus group.
         </p>
       </div>
@@ -752,7 +752,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
     <div className="h-full flex flex-col"
       style={{ background:"linear-gradient(180deg,#6EC6FF 0%,#87CEEB 30%,#5B8731 65%,#8B6914 100%)" }}>
       {/* Top bar */}
-      <div className="flex items-center justify-between px-3 py-2.5 bg-black/55 border-b-[3px] border-[#373737]">
+      <div className="flex items-center justify-between px-3 py-2.5 bg-black/80 border-b-[3px] border-[#373737]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-[#555] border-2 border-[#373737] flex items-center justify-center text-2xl">⛏️</div>
           <div>
@@ -760,7 +760,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
             <p className="text-[10px] text-green-400 mt-0.5">LVL 4 — Disciple</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-black/40 px-3 py-2 border-2 border-[#373737]">
+        <div className="flex items-center gap-2 bg-black/70 px-3 py-2 border-2 border-[#373737]">
           <span className="text-lg">🔥</span>
           <div>
             <p className="text-sm text-yellow-400">7</p>
@@ -770,7 +770,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
       </div>
 
       {/* XP bar */}
-      <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border-b-2 border-[#373737]">
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-black/70 border-b-2 border-[#373737]">
         <span className="text-[10px] text-green-400">XP</span>
         <div className="flex-1 h-3 bg-[#222] border-2 border-[#373737]">
           <div className="h-full bg-gradient-to-b from-green-400 to-green-600" style={{ width:"65%" }} />
@@ -786,7 +786,7 @@ function KingdomScreen({ onNav, onStory }: { onNav: (s: Screen) => void; onStory
             disabled={tile.status === "locked"}
             className={`flex flex-col items-center justify-center p-3 min-h-[100px] border-3 transition-all relative ${
               tile.status === "completed" ? "bg-green-900/30 border-green-700 hover:border-green-400" :
-              tile.status === "current" ? "bg-black/30 border-yellow-500 hover:bg-white/5 anim-glow" :
+              tile.status === "current" ? "bg-black/60 border-yellow-500 hover:bg-white/5 anim-glow" :
               "bg-black/50 border-[#444] cursor-default"
             }`}>
             {tile.status === "current" && (
@@ -878,7 +878,7 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
       {showBottomLine && <BottomLineOverlay text="God is bigger than anything you face!" verseRef="Joshua 1:9" onDismiss={() => setShowBottomLine(false)} />}
       {showStory && <StoryOverlay tile={jerichoTile} onClose={() => { setShowStory(false); onNav("kingdom"); }} />}
 
-      <div className="flex items-center justify-between px-4 py-3 bg-black/60 border-b-[3px] border-[#373737]">
+      <div className="flex items-center justify-between px-4 py-3 bg-black/80 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🏰 Walls of Jericho</p>
         <button onClick={() => onNav("kingdom")} className="text-[11px] text-gray-400 hover:text-white">← BACK</button>
       </div>
@@ -903,7 +903,7 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
             </div>
           ))}
           {placed === 0 && (
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white/80">
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white/80 bg-black/80 px-3 py-2 rounded">
               Tap pieces below to build!
             </p>
           )}
@@ -918,7 +918,7 @@ function BuildScreenContent({ onNav }: { onNav: (s: Screen) => void }) {
         </div>
       </div>
 
-      <div className="flex gap-1.5 px-3 py-3 bg-black/60 border-t-[3px] border-[#373737] justify-center flex-wrap">
+      <div className="flex gap-1.5 px-3 py-3 bg-black/80 border-t-[3px] border-[#373737] justify-center flex-wrap">
         {pieces.map(p => (
           <button key={p.id} onClick={() => !p.placed && place(p.id)}
             className={`w-16 h-16 flex flex-col items-center justify-center border-3 transition-all ${
@@ -1044,7 +1044,7 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1a1a2e,#16213e)" }}>
       {selectedHero && <HeroDetailModal hero={selectedHero} onClose={() => setSelectedHero(null)} />}
 
-      <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
+      <div className="flex items-center justify-between px-4 py-3 bg-black/80 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">🃏 Bible Heroes</p>
         <p className="text-[10px] text-yellow-400">{collected} / {collected || FALLBACK_HEROES.length} collected</p>
       </div>
@@ -1115,7 +1115,7 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
   return (
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1e3a1e,#0a1a0a)" }}>
-      <div className="px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
+      <div className="px-4 py-3 bg-black/80 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">⚔️ Faith Builders</p>
         <p className="text-[10px] text-green-400 mt-1">Futures Church — Kids Ministry</p>
       </div>
@@ -1127,7 +1127,7 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
         </div>
       )}
 
-      <div className="mx-3 mt-3 p-4 bg-black/40 border-3 border-[#373737]">
+      <div className="mx-3 mt-3 p-4 bg-black/70 border-3 border-[#373737]">
         <p className="text-[10px] text-yellow-400 mb-2">🎯 WEEKLY MISSION</p>
         <p className="text-[10px] text-gray-400 leading-[1.8] mb-4">
           Build 15 scenes and memorize 5 verses as a team to unlock the Story of Elijah!
@@ -1162,7 +1162,7 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
       <div className="flex-1 px-3 mt-3 overflow-y-auto space-y-1.5">
         <p className="text-[10px] text-yellow-400 px-2">Your Contribution</p>
         {TEAM_MEMBERS.slice(0, 1).map((m, i) => (
-          <div key={i} className="flex items-center gap-3 px-3 py-2.5 bg-black/30 border-2 border-[#373737]">
+          <div key={i} className="flex items-center gap-3 px-3 py-2.5 bg-black/70 border-2 border-[#373737]">
             <span className="text-2xl">{m.icon}</span>
             <span className="text-[10px] flex-1">{m.name}</span>
             <span className="text-[10px] text-green-400">You helped with {m.builds} builds!</span>
@@ -1258,7 +1258,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
 
   return (
     <div className="h-full flex flex-col bg-[#0f1520]">
-      <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b-[3px] border-[#373737]">
+      <div className="flex items-center justify-between px-4 py-3 bg-black/80 border-b-[3px] border-[#373737]">
         <p className="text-[11px]">⚙️ VerseCraft Admin</p>
         <button onClick={() => onNav("kingdom")} className="text-[11px] text-gray-400 hover:text-white">← BACK</button>
       </div>
@@ -1276,7 +1276,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
         {/* ─── CAMPUS TAB ─── */}
         {tab === "campus" && (
           <div className="space-y-3 anim-slide">
-            <div className="bg-black/30 border-3 border-[#373737] p-4">
+            <div className="bg-black/70 border-3 border-[#373737] p-4">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] text-yellow-400">THIS WEEK'S CONTENT</p>
                 <span className="text-[10px] text-green-400 bg-green-900/30 px-2 py-1 border border-green-700">Using: HQ Default ✓</span>
@@ -1298,7 +1298,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
               <button className="mc-btn mc-btn-gold text-[10px] px-4 py-2 mt-3">Override with Custom Content</button>
             </div>
 
-            <div className="bg-black/30 border-3 border-[#373737] p-4">
+            <div className="bg-black/70 border-3 border-[#373737] p-4">
               <p className="text-[10px] text-yellow-400 mb-3">CAMPUS STATS — Futures North</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -1309,7 +1309,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["7+ Day Streaks", "23 kids", "🔥"],
                   ["Team Mission", "73%", "🎯"],
                 ].map(([label, val, icon]) => (
-                  <div key={label} className="bg-black/30 border-2 border-[#373737] p-3">
+                  <div key={label} className="bg-black/70 border-2 border-[#373737] p-3">
                     <p className="text-[10px] text-gray-500">{icon} {label}</p>
                     <p className="text-[14px] text-white mt-1">{val}</p>
                   </div>
@@ -1326,7 +1326,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
         {/* ─── AI ENGINE TAB ─── */}
         {tab === "ai" && (
           <div className="space-y-3 anim-slide">
-            <div className="bg-black/30 border-3 border-[#373737] p-4">
+            <div className="bg-black/70 border-3 border-[#373737] p-4">
               <p className="text-[10px] text-cyan-300 mb-3">🤖 AI CONTENT ENGINE</p>
               <p className="text-[10px] text-gray-400 leading-[2] mb-4">
                 Enter your 7 lesson data points. The AI engine will generate a full week of gamified content — build scenes, verse quests, adventures, hero cards, and team missions.
@@ -1377,7 +1377,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
             </div>
 
             {(generating || generated) && (
-              <div className="bg-black/30 border-3 border-[#373737] p-4 anim-slide">
+              <div className="bg-black/70 border-3 border-[#373737] p-4 anim-slide">
                 <p className="text-[10px] text-yellow-400 mb-3">GENERATION LOG</p>
                 <div className="space-y-1.5 font-mono">
                   {aiSteps.slice(0, aiStep + 1).map((step, i) => (
@@ -1400,7 +1400,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["🎯 Team Mission", "The Courage Challenge — 15 builds + 5 verses"],
                   ["👨‍👩‍👧 Parent Summary", "Weekly email with conversation starters"],
                 ].map(([title, desc]) => (
-                  <div key={title} className="flex items-center justify-between bg-black/30 border-2 border-[#373737] px-3 py-2.5">
+                  <div key={title} className="flex items-center justify-between bg-black/70 border-2 border-[#373737] px-3 py-2.5">
                     <div>
                       <p className="text-[10px]">{title}</p>
                       <p className="text-[6px] text-gray-500 mt-0.5">{desc}</p>
@@ -1419,7 +1419,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
         {/* ─── HQ TAB ─── */}
         {tab === "hq" && (
           <div className="space-y-3 anim-slide">
-            <div className="bg-black/30 border-3 border-[#373737] p-4">
+            <div className="bg-black/70 border-3 border-[#373737] p-4">
               <p className="text-[10px] text-yellow-400 mb-3">🌐 FUTURES CHURCH — ALL CAMPUSES</p>
 
               <div className="grid grid-cols-3 gap-3 mb-4">
@@ -1428,7 +1428,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["Avg Active", "72%"],
                   ["Overrides", "3/21"],
                 ].map(([label, val]) => (
-                  <div key={label} className="bg-black/30 border-2 border-[#373737] p-3 text-center">
+                  <div key={label} className="bg-black/70 border-2 border-[#373737] p-3 text-center">
                     <p className="text-[6px] text-gray-500">{label}</p>
                     <p className="text-[14px] text-white mt-1">{val}</p>
                   </div>
@@ -1441,7 +1441,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
                   ["Verses Memorized", "487", "📖"],
                   ["Avg Streak", "4.2 days", "🔥"],
                 ].map(([label, val, icon]) => (
-                  <div key={label} className="bg-black/30 border-2 border-[#373737] p-3 text-center">
+                  <div key={label} className="bg-black/70 border-2 border-[#373737] p-3 text-center">
                     <p className="text-[6px] text-gray-500">{icon} {label}</p>
                     <p className="text-[12px] text-green-400 mt-1">{val}</p>
                   </div>
@@ -1449,7 +1449,7 @@ function AdminScreen({ onNav }: { onNav: (s: Screen) => void }) {
               </div>
             </div>
 
-            <div className="bg-black/30 border-3 border-[#373737] p-4">
+            <div className="bg-black/70 border-3 border-[#373737] p-4">
               <p className="text-[10px] text-yellow-400 mb-3">CAMPUS BREAKDOWN</p>
               <div className="space-y-1">
                 <div className="grid grid-cols-5 gap-1 text-[6px] text-gray-500 px-2 pb-1 border-b border-[#373737]">
