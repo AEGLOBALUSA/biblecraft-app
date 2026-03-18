@@ -156,6 +156,17 @@ export interface TeamMissionConfig {
   mission_title: string;
   description: string;
   goals: TeamMissionGoals;
+  bronze_threshold?: number; // 0.3 = 30%
+  silver_threshold?: number; // 0.6 = 60%
+  gold_threshold?: number;   // 1.0 = 100%
+  bronze_reward?: string;
+  silver_reward?: string;
+  gold_reward?: string;
+  milestone_25?: string;
+  milestone_50?: string;
+  milestone_75?: string;
+  milestone_100?: string;
+  team_celebration?: string;
   reward: string;
   deadline: string; // ISO timestamp
 }

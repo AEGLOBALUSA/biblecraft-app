@@ -534,7 +534,34 @@ function HeroesScreen({ onNav }: { onNav: (s: Screen) => void }) {
 function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
   const totalBuilds = TEAM_MEMBERS.reduce((s, m) => s + m.builds, 0);
   const missionGoal = 15;
-  const pct = Math.round((totalBuilds / missionGoal) * 100);
+  const pct = Math.min((totalBuilds / missionGoal) * 100, 100);
+  const progressRatio = totalBuilds / missionGoal;
+
+  // Determine reward tier
+  let currentTier = 'none';
+  let tierMessage = '';
+  if (progressRatio >= 1.0) {
+    currentTier = 'gold';
+    tierMessage = 'Gold Badge: Your team is legendary! 🏆';
+  } else if (progressRatio >= 0.6) {
+    currentTier = 'silver';
+    tierMessage = 'Silver Badge: Your team is amazing! 🥈';
+  } else if (progressRatio >= 0.3) {
+    currentTier = 'bronze';
+    tierMessage = 'Bronze Badge: You helped your team! 🥉';
+  }
+
+  // Determine milestone message
+  let milestoneMsg = '';
+  if (pct >= 100) {
+    milestoneMsg = 'You did it! Your team completed the challenge! 🎉';
+  } else if (pct >= 75) {
+    milestoneMsg = 'Almost done! 75% complete! The finish line is near! 🎯';
+  } else if (pct >= 50) {
+    milestoneMsg = 'Halfway there! Your team is awesome! 💪';
+  } else if (pct >= 25) {
+    milestoneMsg = 'Your team is 25% of the way there! Keep going! 🚀';
+  }
 
   return (
     <div className="h-full flex flex-col" style={{ background:"linear-gradient(180deg,#1e3a1e,#0a1a0a)" }}>
@@ -543,27 +570,55 @@ function TeamScreen({ onNav }: { onNav: (s: Screen) => void }) {
         <p className="text-[8px] text-green-400 mt-1">Futures Church — Kids Ministry</p>
       </div>
 
+      {/* Team Celebration Message */}
+      {pct >= 25 && (
+        <div className="mx-3 mt-2 p-3 bg-yellow-900/30 border-2 border-yellow-600">
+          <p className="text-[8px] text-yellow-300 text-center">{milestoneMsg}</p>
+        </div>
+      )}
+
       <div className="mx-3 mt-3 p-4 bg-black/40 border-3 border-[#373737]">
         <p className="text-[10px] text-yellow-400 mb-2">🎯 WEEKLY MISSION</p>
         <p className="text-[8px] text-gray-400 leading-[1.8] mb-4">
           Build 15 scenes and memorize 5 verses as a team to unlock the Story of Elijah!
         </p>
-        <div className="h-5 bg-[#222] border-2 border-[#373737] mb-2">
-          <div className="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-1000" style={{ width:`${Math.min(pct, 100)}%` }} />
+
+        {/* Progress bar with tiered markers */}
+        <div className="mb-3">
+          <div className="h-5 bg-[#222] border-2 border-[#373737] relative">
+            <div className="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-1000" style={{ width:`${pct}%` }} />
+            {/* Tier markers */}
+            <div className="absolute top-0 left-[30%] h-full w-0.5 bg-amber-500/50" title="30% - Bronze"></div>
+            <div className="absolute top-0 left-[60%] h-full w-0.5 bg-gray-300/50" title="60% - Silver"></div>
+            <div className="absolute top-0 left-[100%] h-full w-0.5 bg-yellow-400/50" title="100% - Gold"></div>
+          </div>
+          <div className="flex justify-between text-[6px] text-gray-400 mt-1 px-0.5">
+            <span>0%</span>
+            <span>🥉 30%</span>
+            <span>🥈 60%</span>
+            <span>🏆 100%</span>
+          </div>
         </div>
-        <p className="text-[7px] text-green-400 text-right">{totalBuilds} / {missionGoal} builds</p>
+
+        {/* Progress text - always positive */}
+        <p className="text-[8px] text-green-400 mb-2">Your team has built <span className="font-bold text-yellow-400">{totalBuilds}</span> of <span className="font-bold">{missionGoal}</span> scenes!</p>
+
+        {/* Current reward tier */}
+        {currentTier !== 'none' && (
+          <p className="text-[8px] text-green-300 bg-green-900/30 px-2 py-1 border border-green-700 text-center">{tierMessage}</p>
+        )}
       </div>
 
       <div className="flex-1 px-3 mt-3 overflow-y-auto space-y-1.5">
-        {TEAM_MEMBERS.map((m, i) => (
+        <p className="text-[8px] text-yellow-400 px-2">Your Contribution</p>
+        {TEAM_MEMBERS.slice(0, 1).map((m, i) => (
           <div key={i} className="flex items-center gap-3 px-3 py-2.5 bg-black/30 border-2 border-[#373737]">
             <span className="text-2xl">{m.icon}</span>
             <span className="text-[8px] flex-1">{m.name}</span>
-            <span className={`text-[7px] ${i === 0 ? "text-yellow-400" : "text-green-400"}`}>
-              {i === 0 ? "★ " : ""}{m.builds} builds
-            </span>
+            <span className="text-[7px] text-green-400">You helped with {m.builds} builds!</span>
           </div>
         ))}
+        <p className="text-[7px] text-gray-500 px-2 mt-2">Together, your team is making something amazing!</p>
       </div>
 
       <div className="px-3 py-3">
