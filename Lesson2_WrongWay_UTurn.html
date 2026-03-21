@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wrong Way – Week 2 – U-Turn</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f9f7f4;
+      color: #222;
+      line-height: 1.7;
+    }
+    header {
+      background: #1a3a5c;
+      color: #fff;
+      padding: 36px 40px 28px;
+      text-align: center;
+    }
+    header .series { font-size: 0.95rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; }
+    header h1 { font-size: 2.4rem; font-weight: bold; }
+    header .subtitle { font-size: 1.1rem; margin-top: 8px; opacity: 0.9; }
+    .container { max-width: 900px; margin: 0 auto; padding: 30px 24px 60px; }
+    .section {
+      background: #fff;
+      border-left: 6px solid #1a3a5c;
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .section.skit    { border-left-color: #c0392b; }
+    .section.game    { border-left-color: #27ae60; }
+    .section.verse   { border-left-color: #8e44ad; }
+    .section.lesson  { border-left-color: #e67e22; }
+    .section.small   { border-left-color: #2980b9; }
+    .section.review  { border-left-color: #16a085; }
+    .section.takehome{ border-left-color: #d35400; }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      opacity: 0.55;
+      margin-bottom: 6px;
+    }
+    h2 { font-size: 1.55rem; color: #1a3a5c; margin-bottom: 16px; }
+    h3 { font-size: 1.15rem; color: #333; margin: 20px 0 8px; }
+    p { margin-bottom: 12px; }
+    .highlight-box {
+      background: #eef4fb;
+      border: 1px solid #b6d0ea;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+    }
+    .highlight-box strong { color: #1a3a5c; }
+    .verse-block {
+      background: #f3eef8;
+      border-left: 4px solid #8e44ad;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-style: italic;
+    }
+    .verse-block .ref { font-style: normal; font-weight: bold; font-size: 0.9rem; margin-top: 4px; display: block; color: #8e44ad; }
+    .dialogue { margin: 0 0 12px 0; }
+    .dialogue .speaker {
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #c0392b;
+      margin-right: 6px;
+    }
+    .items-needed {
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      background: #fef9e7;
+      border: 1px solid #f0d060;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .items-needed strong { color: #b7770d; }
+    ol, ul { padding-left: 22px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+    .prayer {
+      background: #f0f8f0;
+      border-left: 4px solid #27ae60;
+      padding: 12px 16px;
+      font-style: italic;
+      margin-top: 10px;
+    }
+    .discussion-q { margin-bottom: 8px; }
+    .discussion-q .q { font-weight: bold; }
+    .discussion-q .a { color: #555; font-size: 0.95rem; }
+    .review-q { display: flex; gap: 10px; margin-bottom: 8px; font-family: Arial, sans-serif; font-size: 0.95rem; }
+    .review-q .num { min-width: 26px; font-weight: bold; color: #16a085; }
+    .review-q .ans { color: #555; }
+    .takehome-verse { border: 2px dashed #d35400; border-radius: 6px; padding: 14px 18px; margin-top: 12px; background: #fff8f3; font-style: italic; }
+    .takehome-verse .ref { font-style: normal; font-weight: bold; display: block; margin-top: 6px; color: #d35400; }
+    .tip { font-family: Arial, sans-serif; font-size: 0.88rem; color: #666; background: #f5f5f5; border-radius: 4px; padding: 8px 12px; margin-top: 10px; }
+    .tip strong { color: #333; }
+    .at-home-section { margin-bottom: 18px; }
+    .at-home-section h3 { color: #e67e22; font-size: 1rem; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+    footer { text-align: center; font-family: Arial, sans-serif; font-size: 0.8rem; color: #aaa; padding: 20px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="series">Wrong Way — Lesson 2</div>
+  <h1>U-Turn</h1>
+  <div class="subtitle">Week 2 Curriculum Guide</div>
+</header>
+
+<div class="container">
+
+  <!-- SERIES OVERVIEW -->
+  <div class="section">
+    <div class="section-label">Series Overview</div>
+    <h2>Lesson 2 Snapshot</h2>
+    <div class="highlight-box"><strong>Bottom Line:</strong> The world's "wisdom" is that you are important and that you should put yourself first. But Jesus tells us – just like he told James and John when they wanted important positions – that the most important thing is to serve others and put them first. That's God's Truth.</div>
+    <div class="highlight-box"><strong>Objective:</strong> Kids will say "God's Truth is: I should put others first."</div>
+    <div class="highlight-box"><strong>Key Passage:</strong> Mark 10:35–45, James and John's Request to Jesus</div>
+    <div class="highlight-box"><strong>Memory Verse:</strong> Jesus answered, "I am the way and the truth and the life. No one comes to the Father except through me." — John 14:6 (NIRV)</div>
+    <h3>Summary</h3>
+    <p>In this four-week session on "The Wrong Way," we'll be learning about how God's Truth is better in every way than the world's "wisdom." The world wants to tell us that we should put ourselves first, but God's Truth is that we are most like Jesus when we show love and service to others.</p>
+    <div class="prayer">
+      <strong>Simple Prayer:</strong><br/>
+      Dear Lord Jesus, We know that as sinners we think first of ourselves. Please fill us with Your love for others and help us to give ourselves for others as You gave Yourself for us. In Your name we pray, Amen.
+    </div>
+  </div>
+
+  <!-- MEMORY VERSE -->
+  <div class="section verse">
+    <div class="section-label">Memory Verse</div>
+    <h2>John 14:6</h2>
+    <div class="verse-block">Jesus answered, "I am the way and the truth and the life. No one comes to the Father except through me."<span class="ref">John 14:6 (NIRV)</span></div>
+    <div class="verse-block">Jesus answered, "I am the way and the truth and the life. No one comes to the Father except through me."<span class="ref">John 14:6 (NIV)</span></div>
+    <div class="verse-block">Jesus answered, "I am the way and the truth and the life. No one comes to the Father except through me."<span class="ref">John 14:6 (NLT)</span></div>
+    <div class="verse-block">Jesus saith unto him, "I am the way, the truth, and the life: no man cometh unto the Father, but by me."<span class="ref">John 14:6 (KJV)</span></div>
+    <h3>Large Group</h3>
+    <p>Display the verse on the focal wall. Divide the verse into four parts and have half the group say the first part, the other half respond with the second part, and so on. Say "John 14:6" in unison.</p>
+    <h3>Small Group</h3>
+    <p>Ask if anyone wants to try to say the verse by themselves. Tell the children that "Jesus is the way" means that we follow Him to figure out how to live, "Jesus is the truth" means that we listen to Him to avoid the lies of the world, and "Jesus is the life" means that if we trust in Him, He will share His life with us. Say the verse in unison.</p>
+  </div>
+
+  <!-- SKIT -->
+  <div class="section skit">
+    <div class="section-label">Skit</div>
+    <h2>U-Turn</h2>
+    <div class="items-needed"><strong>Items Needed:</strong> Two chairs. The coach has a clipboard, and Walker has something to use as a "steering wheel," perhaps a paper plate.</div>
+    <h3>Character Breakdown</h3>
+    <p><strong>Coach Caution</strong> — male or female. Might wear a baseball cap. The coach is very nervous and often reacts in panic.</p>
+    <p><strong>Walker</strong> — male or female. Any clothing. Walker is very enthusiastic and energetic.</p>
+    <p><em>(Coach Caution and Walker are sitting in two chairs facing the audience. Walker is on the coach's left. Walker is "driving" and the coach is hiding behind the clipboard.)</em></p>
+    <div class="dialogue"><span class="speaker">Walker:</span> Wow, Coach Caution, this is great! Out on the road!</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Just be careful, please, Walker!</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Hey, coach, you know what I'm going to do when I get my license? Whoops! Almost hit that grocery store!</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Aaaahhhh! Careful, Walker, please be careful. No, what are you going to do when you get your license?</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> I'm going to be so in charge of everything! I'm going to have adventures and drive to all kinds of great places! I'm going to be the ruler of the road!</div>
+    <div class="dialogue"><em>(The coach lowers the clipboard and looks at Walker, then looks ahead and yells.)</em></div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Aaaahhhh! Watch out for that helicopter! <em>(Walker swerves to the left and they both lean to the right. The coach hides behind the clipboard again.)</em></div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Whoops!</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> <em>(Puts the clipboard down.)</em> Walker, you know that driving a car is a big responsibility, right?</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Oh, sure, coach, I know that.</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Driving isn't going to be you in charge of things. You have to think about other people, and watch out for them, and keep them safe. And it's good to think about how you can use your driving skills to help others.</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Oh! You mean like Jesus told us we should love and serve other people?</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Exactly, Walker! Watch out! <em>(Walker swerves.)</em> Thinking about yourself first is the wrong way to learn to drive.</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Oh, yeah, that's right. I'm sorry, coach. I guess I am kind of thinking about myself a lot here.</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Watch out for that hippopotamus! <em>(Walker swerves. The coach holds up the clipboard again.)</em></div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Hey, coach, I think I just missed our turn.</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> <em>(Puts the clipboard down.)</em> That's okay, Walker. We all make mistakes. Let me teach you how to make a U-turn.</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> What's a U-turn?</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> That's when you realize you're going the wrong way, and you have to fix it, so you turn around.</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Oh! Like when I realize I'm thinking about myself too much and Jesus wants me to think about others, and I have to turn around?</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Very good, Walker! When we make a U-turn to please God, that's called repentance. We turn away from a bad way of living and turn back to following God.</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Cool! Thanks, coach. Okay, show me how to make a U-turn!</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Watch out for that volcano!</div>
+    <div class="dialogue"><span class="speaker">Walker:</span> Aaaahhhhh! <em>(Swerves)</em></div>
+    <div class="dialogue"><span class="speaker">Coach:</span> Aaaaaahhhhhh! <em>(Hides behind clipboard.)</em></div>
+    <div class="dialogue"><span class="speaker">Walker:</span> I think maybe we should turn around and go back to the driving school, coach.</div>
+    <div class="dialogue"><span class="speaker">Coach:</span> I think that's a great idea, Walker. <em>(The actors exit.)</em></div>
+  </div>
+
+  <!-- OBJECT LESSON -->
+  <div class="section">
+    <div class="section-label">Object Lesson</div>
+    <h2>U-Turn</h2>
+    <div class="items-needed"><strong>Items Needed:</strong> A picture of the letter "U."</div>
+    <p>Good morning, boys and girls. How many of you have ridden in the car with someone, maybe your mom or dad, when they've had to make a "U-turn?" Anyone who's driven a car for any length of time at all has had to make a few U-turns, and you learn how to do them when you're learning to drive.</p>
+    <p>A U-turn usually means that something has gone wrong. Maybe you've missed a turn you were supposed to make, or you got mixed up and headed the wrong way on a road, or maybe you're just plain lost. But we learn how to make U-turns because we know that sometimes things do go wrong, and a U-turn is how to fix things.</p>
+    <p>The Bible has a word that means the same thing as "U-turn" and that's the word "repent." To repent means literally "to turn around." That's when you figure out that your life is going in the wrong direction and you want to change it. When we sin we do things that aren't good for us or others. In today's lesson we're learning that it's sin when we selfishly put ourselves first. God wants us to "repent," which means to turn away from our sin, so that He can forgive us and help us to live better.</p>
+    <p><em>(Hold up the "U.")</em> It's not good when things go wrong, but we know that it's going to happen sometimes. When you drive you know that sometimes things won't be right, and so you use a U-turn to start to fix things. When you do something foolish or selfish or mean in life, that's called sin. It's not good, but everyone sins sometimes. We use repentance, turning away from our sin, to start to fix things.</p>
+  </div>
+
+  <!-- LARGE GROUP GAME -->
+  <div class="section game">
+    <div class="section-label">Large Group Game</div>
+    <h2>Turnaround Trouble</h2>
+    <div class="items-needed">
+      <strong>Items Needed:</strong>
+      <ul>
+        <li>A basket with a handful of change (at least a few pennies, nickels, dimes, and quarters).</li>
+        <li>Another basket with folded slips of paper labeled "penny," "nickel," "dime," or "quarter."</li>
+        <li>An obstacle course with a start and a finish. Suggestions: jump from one tape line to another; crawl under a table; walk backwards along a tape line; step through a hula hoop; step from one piece of tape to another; crab walk under a broom set between two chairs.</li>
+      </ul>
+    </div>
+    <h3>Instructions</h3>
+    <p>At the start of the course, have a leader let a child select one coin from the basket. They navigate the obstacle course to the end, where another leader holds the slip-of-paper basket. The leader asks if they want to give their coin or draw a slip of paper.</p>
+    <ul>
+      <li>If they give the coin, the leader says "good choice" — they're finished.</li>
+      <li>If the paper matches their coin — they're finished.</li>
+      <li>If the paper doesn't match, say "I'm sorry. You made the wrong choice. You're going to have to U-turn and start over." (No child should have to run the course more than twice.)</li>
+    </ul>
+    <p><strong>Variation:</strong> Children with mobility issues can play — modify obstacles to fit their needs.</p>
+    <div class="tip"><strong>What's the Point:</strong> When we've made the wrong choices we need to turn around and try again.</div>
+  </div>
+
+  <!-- LARGE GROUP LESSON -->
+  <div class="section lesson">
+    <div class="section-label">Large Group Lesson</div>
+    <h2>U-Turn</h2>
+    <div class="highlight-box"><strong>Bottom Line:</strong> The world's "wisdom" is that you are important and that you should put yourself first. But Jesus tells us – just like he told James and John – that the most important thing is to serve others and put them first. That's God's Truth.</div>
+    <div class="highlight-box"><strong>Objective:</strong> Kids will say "God's Truth is: I should put others first."</div>
+    <div class="highlight-box"><strong>Key Passage:</strong> Mark 10:35–45, James and John's Request to Jesus</div>
+    <div class="tip"><strong>A note to teachers:</strong> Lessons two and three in this series deal with ethical issues: this one on thinking of others and the next on filling our lives with wholesome things. Other religions and philosophies have some commendable ethical teaching, and this should be acknowledged. The distinguishing feature of Christianity is that it is only in Jesus that we can truly have the life we were meant to.</div>
+    <h3>Intro</h3>
+    <p>People want to be winners. Everyone wants to be the boss, or the king or queen, or the leader. That was just as true in Jesus' day as it is in ours. The wisdom of the world is that we should think about ourselves first, and how we can get what we want. Good jobs, nice houses, cool stuff. There's nothing wrong with any of that, but we have to be careful about what's most important to us.</p>
+    <p>Jesus' closest friends were called His disciples. They believed Jesus was the Messiah, the One who was going to be the king of Israel and rule the whole world. But His closest friends had missed the point that Jesus came to this world not for Himself, but for others.</p>
+    <p><strong>Read Mark 10:35–45</strong></p>
+    <h3>Main Point</h3>
+    <p>James and John were two of Jesus' best friends, but they were following the wisdom of the world here. They believed Jesus was going to be this big important leader, and they wanted to be big, important leaders right next to Him. When Jesus asked them about drinking from the cup He would drink from and being baptized with His baptism, He was telling them that He was going to suffer and die.</p>
+    <p>The other disciples were angry with James and John for asking such a big thing — but they might have been angry because secretly they wanted to be big and important themselves. Jesus had to correct their thinking. He was already the leader of everything before He came to Earth — He came to be a servant.</p>
+    <p>He told His followers that the wisdom of the world says it's good to be in charge, but whoever really wants to be great should make putting others first the most important thing. The leaders we most respect are the ones who work to make things better for other people.</p>
+    <h3>Drive It Home</h3>
+    <p>Today's lesson is called "U-turn." When you get lost or make a mistake while driving, you make a U-turn to get back going in the right direction. When you make a U-turn in your life, that's called "repenting." If you find yourself thinking mostly about yourself, then you're not living the life that Jesus wants for you. Jesus calls us to love others, to think about them, and to serve them. If we really want to follow Jesus, we'll repent from our selfishness and try to put others first.</p>
+    <div class="prayer">
+      <strong>Close with a Simple Prayer:</strong><br/>
+      Dear Lord Jesus, We know that as sinners we think first of ourselves. Please fill us with Your love for others and help us to give ourselves for others as You gave Yourself for us. In Your name we pray, Amen.
+    </div>
+  </div>
+
+  <!-- SMALL GROUP K-2 -->
+  <div class="section small">
+    <div class="section-label">Small Group Discussion — K–2nd Grade</div>
+    <h2>U-Turn</h2>
+    <h3>Icebreaker</h3>
+    <p>Share about a time in your life when you acted selfishly and realized it made you unhappy and caused trouble, OR share about a time when you had a chance to help someone else and how good it made you feel. Invite the group to do the same.</p>
+    <h3>Memory Verse Activity</h3>
+    <p>Ask if anyone wants to try to say the verse by themselves. Explain: "Jesus is the way" means we follow Him to figure out where to go; "Jesus is the truth" means we listen to Him to avoid the lies of the world; "Jesus is the life" means if we have faith in Him, He will share His life with us. Say the verse in unison.</p>
+    <h3>Small Group Game / Activity</h3>
+    <p>Have the children line up and tell them "the nicest person should go to the front of the line, then the next nicest person, and so on." Let them have a little fun with it. When everyone is in line, do a quick game of "follow the leader."</p>
+    <h3>Discussion Questions</h3>
+    <div class="discussion-q"><span class="q">1. What did James and John want in today's story?</span> <span class="a">(To sit on Jesus' right and left hand.)</span></div>
+    <div class="discussion-q"><span class="q">2. How did Jesus answer them?</span> <span class="a">(Answers will vary. He told them that the great ones among them would be servants.)</span></div>
+    <div class="discussion-q"><span class="q">3. What did Jesus say about Himself?</span> <span class="a">(That He had come to give His life for others.)</span></div>
+    <div class="prayer">
+      Our Father in Heaven, We confess that sometimes we act selfishly. Forgive us when we fail to think about others and help us to do better. Thank You for loving us and always taking care of us. In Jesus' name we pray, Amen.
+    </div>
+  </div>
+
+  <!-- SMALL GROUP 3-5 -->
+  <div class="section small">
+    <div class="section-label">Small Group Discussion — 3rd–5th Grade</div>
+    <h2>U-Turn</h2>
+    <h3>Icebreaker</h3>
+    <p>Share about a time in your life when you acted selfishly and realized it made you unhappy and caused trouble, OR share about a time when you had a chance to help someone else and how good it made you feel. Invite the group to do the same.</p>
+    <h3>Memory Verse Activity</h3>
+    <p>Ask if anyone wants to try to say the verse by themselves. Explain: "Jesus is the way" means we follow Him to figure out where to go; "Jesus is the truth" means we listen to Him to avoid the lies of the world; "Jesus is the life" means if we have faith in Him, He will share His life with us. Say the verse in unison.</p>
+    <h3>Small Group Game / Activity</h3>
+    <p>Have the children line up and tell them "the nicest person should go to the front of the line, then the next nicest person, and so on." Let them have a little fun with it. When everyone is in line, do a quick game of "follow the leader."</p>
+    <h3>Discussion Questions</h3>
+    <div class="discussion-q"><span class="q">1. Is it easy or hard to help others?</span> <span class="a">(Answers will vary.)</span></div>
+    <div class="discussion-q"><span class="q">2. Why do you think people want to be rich and famous and important?</span> <span class="a">(Answers will vary.)</span></div>
+    <div class="discussion-q"><span class="q">3. Why do you think Jesus said that the greatest people were those who served others?</span> <span class="a">(Answers will vary.)</span></div>
+    <div class="prayer">
+      Our Father in Heaven, We confess that sometimes we act selfishly. Forgive us when we fail to think about others and help us to do better. Thank You for loving us and always taking care of us. In Jesus' name we pray, Amen.
+    </div>
+  </div>
+
+  <!-- POWERPOINT REVIEW GAME -->
+  <div class="section review">
+    <div class="section-label">PowerPoint Review Game</div>
+    <h2>Review Questions</h2>
+    <div class="review-q"><span class="num">1.</span><div>Jesus' closest followers were called ___________. <span class="ans">(disciples)</span></div></div>
+    <div class="review-q"><span class="num">2.</span><div>Two of Jesus' disciples, ____ and ____, had a special request. <span class="ans">(James, John)</span></div></div>
+    <div class="review-q"><span class="num">3.</span><div>James and John wanted to sit at Jesus' ________. <span class="ans">(right and left hands)</span></div></div>
+    <div class="review-q"><span class="num">4.</span><div>Jesus told James and John they didn't _______. <span class="ans">(know what they were asking)</span></div></div>
+    <div class="review-q"><span class="num">5.</span><div>Jesus asked them if they were ready to _______ and ____ for Him. <span class="ans">(suffer, die)</span></div></div>
+    <div class="review-q"><span class="num">6.</span><div>True or false? Jesus promised the brothers could rule next to Him. <span class="ans">(false)</span></div></div>
+    <div class="review-q"><span class="num">7.</span><div>The other disciples were ______ with James and John. <span class="ans">(angry)</span></div></div>
+    <div class="review-q"><span class="num">8.</span><div>Jesus told His followers not to follow the ways of the _____. <span class="ans">(world)</span></div></div>
+    <div class="review-q"><span class="num">9.</span><div>The world says that it's better to ______ over others. <span class="ans">(rule)</span></div></div>
+    <div class="review-q"><span class="num">10.</span><div>Jesus said that whoever wants to be great must be a _______. <span class="ans">(servant)</span></div></div>
+    <div class="review-q"><span class="num">11.</span><div>Jesus said that even He didn't come to be _____, but to _____. <span class="ans">(served, serve)</span></div></div>
+    <div class="review-q"><span class="num">12.</span><div>Jesus came to give His _____ to pay for everyone's sins. <span class="ans">(life)</span></div></div>
+  </div>
+
+  <!-- THIS WEEK'S LESSON / TAKE HOME -->
+  <div class="section takehome">
+    <div class="section-label">This Week's Lesson — Take Home</div>
+    <h2>5 Simple Ways to Make This Week's Lesson Stick</h2>
+    <div class="at-home-section">
+      <h3>In the Car</h3>
+      <p>Ask your child what they learned about this week on the drive home: The world's "wisdom" is that you are important and that you should put yourself first. But Jesus tells us – just like he told James and John when they wanted important positions – that the most important thing is to serve others and put them first. That's God's Truth. <em>(Mark 10:35–45, James and John's Request to Jesus)</em></p>
+    </div>
+    <div class="at-home-section">
+      <h3>Hanging Out</h3>
+      <p>Make this week's lesson real: <em>Exodus 2:1–10, The Birth of Moses.</em><br/>
+      What did James and John ask Jesus? How did Jesus answer them? What did Jesus say we should do if we want to be great?</p>
+    </div>
+    <div class="at-home-section">
+      <h3>At Dinner</h3>
+      <p>Great discussion starters: Is it better to be a ruler or to be a servant? How can good leaders serve their followers? How can serving others make people happy?</p>
+    </div>
+    <div class="at-home-section">
+      <h3>At Bedtime</h3>
+      <p>Quiz your child on this series' memory verse, John 14:6. Talk to them about what it means to have faith in Jesus as Lord and Savior.</p>
+    </div>
+    <div class="at-home-section">
+      <h3>Parent Time</h3>
+      <p>In this lesson series we're going to be talking about knowing God's truth to help us avoid the dangers in the "world's wisdom." Today we learned that true greatness comes in serving others and living for them.</p>
+    </div>
+    <h3>Take Home Activity</h3>
+    <div class="items-needed"><strong>Items Needed:</strong> Paper or index cards, scissors, crayons, markers.</div>
+    <p>Have the children make "servant cards" to give to someone at home. They can write or draw a picture of doing something to help around the house — "I will take out the trash," "I will feed the dog," "I will sweep the kitchen," for example. Let them decorate the cards and take them home to give to their families.</p>
+    <div class="takehome-verse">
+      Jesus answered, "I am the way and the truth and the life. No one comes to the Father except through me."
+      <span class="ref">John 14:6 (NIRV)</span>
+    </div>
+  </div>
+
+</div>
+<footer>Wrong Way — Week 2 — U-Turn &nbsp;|&nbsp; Lesson Curriculum Guide</footer>
+</body>
+</html>
